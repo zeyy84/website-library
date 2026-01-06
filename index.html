@@ -146,7 +146,7 @@
                         </button>
                     </div>
                     <div>
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop" alt="Book Cover" class="w-48 h-64 object-cover rounded-lg shadow-xl">
+                        <img src="https://drive.google.com/thumbnail?id=1wkf96XwLtTEbDthIja9wChSr4XNmOmKc&sz=w300" alt="Book Cover" class="w-48 h-64 object-cover rounded-lg shadow-xl">
                     </div>
                 </div>
             </div>
@@ -281,81 +281,108 @@
             user: null
         };
 
-        // Sample Books Data
+        // Books Data dengan link yang Anda berikan
         const sampleBooks = [
             {
                 id: 1,
-                title: "To Kill a Mockingbird",
-                author: "Harper Lee",
-                year: 1960,
-                genre: "Fiksi",
-                rating: 4.8,
-                cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=450&fit=crop",
-                description: "Kisah mengharukan tentang ketidakadilan rasial dan masa kecil di Amerika Selatan.",
+                title: "The Complete Works of William Shakespeare",
+                author: "William Shakespeare",
+                year: 1623,
+                genre: "Sastra Klasik",
+                rating: 4.9,
+                cover: "https://drive.google.com/thumbnail?id=1wkf96XwLtTEbDthIja9wChSr4XNmOmKc&sz=w1000",
+                description: "Koleksi lengkap karya William Shakespeare termasuk tragedi, komedi, dan soneta.",
                 content: [
-                    DOWNLOAD: "https://drive.google.com/file/d/18t3dgN-BdZ0tY5vLdfhGilt1m_9tYkP5/view?usp=drive_link"
-                    "Ketika dia hampir berusia tiga belas tahun, saudaraku Jem patah lengan parah di siku.",
-                    "Maycomb adalah kota tua, tetapi itu adalah kota tua yang lelah ketika aku pertama kali mengenalnya.",
-                    "Tempat Radley memikat Dill. Meskipun peringatan dan penjelasan kami, itu menariknya seperti bulan menarik air."
+                    "To be, or not to be, that is the question:",
+                    "Whether 'tis nobler in the mind to suffer",
+                    "The slings and arrows of outrageous fortune,",
+                    "Or to take arms against a sea of troubles"
                 ],
+                downloadLink: "https://drive.google.com/uc?export=download&id=1A61eCc4TaYrbRcDeMeSHUvpsQuDu4yHG",
+                readLink: "https://drive.google.com/file/d/1A61eCc4TaYrbRcDeMeSHUvpsQuDu4yHG/preview",
                 downloads: 1250,
-                pages: 324,
+                pages: 1245,
                 isFeatured: true
             },
             {
                 id: 2,
-                title: "1984",
-                author: "George Orwell",
-                year: 1949,
-                genre: "Fiksi",
-                rating: 4.7,
-                cover: "https://images.unsplash.com/photo-1495640452863-552b17d4c78b?w=300&h=450&fit=crop",
-                description: "Visi masa depan yang mengerikan di mana Partai mengontrol segala aspek kehidupan.",
-                DOWNLOAD: "https://drive.google.com/file/d/18t3dgN-BdZ0tY5vLdfhGilt1m_9tYkP5/view?usp=drive_link"
-                content: [
-                    "Itu adalah hari yang cerah dan dingin di bulan April, dan jam-jam menunjukkan pukul tiga belas.",
-                    "BIG BROTHER MELIHAT ANDA, kata keterangannya, sementara mata gelap menatap jauh ke dalam mata Winston sendiri.",
-                    "Winston membelakangi telescreen. Itu lebih aman; meskipun, seperti yang dia ketahui, bahkan punggung pun bisa mengungkapkan."
-                ],
-                downloads: "DOWNLOAD: "https://drive.google.com/file/d/18t3dgN-BdZ0tY5vLdfhGilt1m_9tYkP5/view?usp=drive_link",
-                pages: 328,
-                isFeatured: true
-            },
-            {
-                id: 3,
                 title: "Pride and Prejudice",
                 author: "Jane Austen",
                 year: 1813,
-                genre: "Romance",
-                rating: 4.6,
-                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
-                description: "Kisah cinta abadi antara Elizabeth Bennet dan Mr. Darcy di Inggris era Regency.",
+                genre: "Romantis",
+                rating: 4.8,
+                cover: "https://drive.google.com/thumbnail?id=1ztnTkP6rSEQcCLgorq21dKG1trTcqpyc&sz=w1000",
+                description: "Kisah cinta antara Elizabeth Bennet dan Mr. Darcy dalam masyarakat Inggris abad ke-19.",
                 content: [
-                    "Ini adalah kebenaran yang diakui secara universal, bahwa seorang pria lajang yang memiliki harta yang baik, pasti menginginkan seorang istri.",
-                    "Betapapun sedikit perasaan atau pandangan pria seperti itu mungkin pada pertamanya memasuki lingkungan, kebenaran ini begitu tertanam dalam pikiran keluarga di sekitarnya.",
-                    "Tuan Bennet yang terkasih, kata istrinya kepadanya suatu hari, apakah Anda mendengar bahwa Netherfield Park disewa akhirnya?"
+                    "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+                    "However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families.",
+                    "My dear Mr. Bennet, said his lady to him one day, have you heard that Netherfield Park is let at last?"
                 ],
-                downloads: 1100,
+                downloadLink: "https://drive.google.com/uc?export=download&id=1I_XPlgUU0C6O2Pvv8_GUymiLw3itLXNI",
+                readLink: "https://drive.google.com/file/d/1I_XPlgUU0C6O2Pvv8_GUymiLw3itLXNI/preview",
+                downloads: 980,
                 pages: 432,
                 isFeatured: true
             },
             {
-                id: 4,
-                title: "The Great Gatsby",
-                author: "F. Scott Fitzgerald",
-                year: 1925,
-                genre: "Fiksi",
-                rating: 4.5,
-                cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=450&fit=crop",
-                description: "Kisah tragis tentang kekayaan, cinta, dan Mimpi Amerika di era Jazz.",
+                id: 3,
+                title: "Moby Dick",
+                author: "Herman Melville",
+                year: 1851,
+                genre: "Petualangan",
+                rating: 4.7,
+                cover: "https://drive.google.com/thumbnail?id=14UBHQiY5N9glkmuGgPCKjiD1gkJGLJ3x&sz=w1000",
+                description: "Kisah epik Kapten Ahab yang memburu paus putih legendaris, Moby Dick.",
                 content: [
-                    "Pada usia muda dan lebih mudah menerima kesan, ayahku memberiku beberapa nasihat yang sejak itu berputar-putar di kepalaku.",
-                    "Setiap kali Anda merasa ingin mengkritik siapa pun, ingatlah, katanya, bahwa semua orang di dunia ini tidak memiliki keuntungan yang Anda miliki.",
-                    "Hidupnya jauh lebih menarik setelah dia tidak lagi memiliki harapan."
+                    "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+                    "It is a way I have of driving off the spleen and regulating the circulation.",
+                    "Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul."
                 ],
-                downloads: 850,
-                pages: 180,
+                downloadLink: "https://drive.google.com/uc?export=download&id=18XNknk_XUZGiI70VevcY7FA_KxL0Z7V3",
+                readLink: "https://drive.google.com/file/d/18XNknk_XUZGiI70VevcY7FA_KxL0Z7V3/preview",
+                downloads: 750,
+                pages: 635,
+                isFeatured: true
+            },
+            {
+                id: 4,
+                title: "War and Peace",
+                author: "Leo Tolstoy",
+                year: 1869,
+                genre: "Sejarah",
+                rating: 4.8,
+                cover: "https://drive.google.com/thumbnail?id=1SXoOr71ncEXX0SON0D_RRgYnOC8ZrNMt&sz=w1000",
+                description: "Epik tentang kehidupan lima keluarga aristokrat Rusia selama invasi Napoleon.",
+                content: [
+                    "Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes.",
+                    "But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist—I really believe he is Antichrist—I will have nothing more to do with you.",
+                    "You are no friend, you are no faithful slave, as you say."
+                ],
+                downloadLink: "https://drive.google.com/uc?export=download&id=1elb28ovca2wJqUMs7_6S75LrMumaQfX3",
+                readLink: "https://drive.google.com/file/d/1elb28ovca2wJqUMs7_6S75LrMumaQfX3/preview",
+                downloads: 620,
+                pages: 1225,
                 isFeatured: false
+            },
+            {
+                id: 5,
+                title: "The Adventures of Sherlock Holmes",
+                author: "Arthur Conan Doyle",
+                year: 1892,
+                genre: "Misteri",
+                rating: 4.9,
+                cover: "https://drive.google.com/thumbnail?id=1HC22M4BsJXRlSlqRQHpwobrG7Gn8D5TH&sz=w1000",
+                description: "Kumpulan cerita detektif terkenal tentang Sherlock Holmes dan Dr. Watson.",
+                content: [
+                    "To Sherlock Holmes she is always the woman. I have seldom heard him mention her under any other name.",
+                    "In his eyes she eclipses and predominates the whole of her sex.",
+                    "It was not that he felt any emotion akin to love for Irene Adler."
+                ],
+                downloadLink: "https://drive.google.com/uc?export=download&id=1DgKRMgGX0r50jWmOfvHdVVfDMUg6nnFf",
+                readLink: "https://drive.google.com/file/d/1DgKRMgGX0r50jWmOfvHdVVfDMUg6nnFf/preview",
+                downloads: 1100,
+                pages: 307,
+                isFeatured: true
             }
         ];
 
@@ -553,7 +580,7 @@
                         
                         <div class="flex gap-2">
                             <button onclick="showBookDetail(${book.id})" class="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
-                                <i class="fas fa-book-open"></i> Baca
+                                <i class="fas fa-book-open"></i> Detail
                             </button>
                             <button onclick="downloadBook(${book.id})" class="p-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Download">
                                 <i class="fas fa-download"></i>
@@ -595,6 +622,10 @@
                                     ${book.rating} <i class="fas fa-star"></i>
                                 </span>
                             </div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <p><i class="fas fa-file-alt mr-2"></i> ${book.pages} halaman</p>
+                                <p><i class="fas fa-download mr-2"></i> ${book.downloads} download</p>
+                            </div>
                         </div>
                         
                         <div class="md:w-2/3">
@@ -612,14 +643,14 @@
                             </div>
                             
                             <div class="flex gap-3">
-                                <button onclick="startReading(${book.id})" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
-                                    <i class="fas fa-book-open"></i> Baca Sekarang
+                                <button onclick="readBookOnline(${book.id})" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
+                                    <i class="fas fa-book-open"></i> Baca Online
                                 </button>
                                 <button onclick="downloadBook(${book.id})" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center justify-center gap-2">
                                     <i class="fas fa-download"></i> Download
                                 </button>
-                                <button onclick="toggleFavorite(${book.id})" class="w-12 h-12 rounded-full ${isFavorite ? 'bg-red-500' : 'bg-gray-200'} flex items-center justify-center">
-                                    <i class="fas fa-heart ${isFavorite ? 'text-white' : 'text-gray-600'}"></i>
+                                <button onclick="toggleFavorite(${book.id})" class="w-12 h-12 rounded-full ${isFavorite ? 'bg-red-500' : 'bg-gray-200 dark:bg-gray-700'} flex items-center justify-center">
+                                    <i class="fas fa-heart ${isFavorite ? 'text-white' : 'text-gray-600 dark:text-gray-300'}"></i>
                                 </button>
                             </div>
                         </div>
@@ -630,44 +661,38 @@
             showModal('bookDetail');
         }
 
-        // Start reading book
-        function startReading(bookId) {
+        // Read book online
+        function readBookOnline(bookId) {
             const book = state.books.find(b => b.id === bookId);
             if (!book) return;
             
-            // Create reader page
-            const mainContent = document.getElementById('mainContent');
-            mainContent.innerHTML = `
-                <div class="animate-fadeIn">
-                    <div class="mb-6">
-                        <button onclick="showPage('home')" class="flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4">
-                            <i class="fas fa-arrow-left"></i> Kembali
-                        </button>
-                        <div class="text-center">
-                            <h1 class="text-2xl font-bold mb-2">${book.title}</h1>
-                            <p class="text-gray-600 dark:text-gray-400">${book.author}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 min-h-[60vh] shadow-lg">
-                        <div class="max-w-3xl mx-auto">
-                            ${book.content.map(paragraph => `
-                                <p class="mb-4 text-lg leading-relaxed">${paragraph}</p>
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center mt-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow">
-                        <button class="px-6 py-3 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <i class="fas fa-chevron-left"></i> Sebelumnya
-                        </button>
-                        <span class="text-gray-600">1 dari ${book.content.length}</span>
-                        <button class="px-6 py-3 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700">
-                            Berikutnya <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
+            window.open(book.readLink, '_blank');
+            showToast(`Membuka "${book.title}" di tab baru`, 'info');
+        }
+
+        // Download book
+        function downloadBook(bookId) {
+            const book = state.books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            // Increment download count
+            book.downloads++;
+            localStorage.setItem('books', JSON.stringify(state.books));
+            
+            // Create download link
+            const a = document.createElement('a');
+            a.href = book.downloadLink;
+            a.download = `${book.title.replace(/\s+/g, '_')}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showToast(`Mengunduh "${book.title}"...`, 'success');
+            
+            // Update stats
+            if (state.currentPage === 'home') {
+                renderHomePage();
+            }
         }
 
         // Toggle favorite
@@ -688,37 +713,6 @@
             // Update UI if on favorites page
             if (state.currentPage === 'favorites') {
                 renderFavoritesPage();
-            }
-        }
-
-        // Download book
-        function downloadBook(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            // Increment download count
-            book.downloads++;
-            localStorage.setItem('books', JSON.stringify(state.books));
-            
-            // Create download content
-            const content = `Buku: ${book.title}\nPenulis: ${book.author}\nTahun: ${book.year}\n\n${book.description}\n\n${book.content.join('\n\n')}`;
-            
-            // Create download link
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${book.title}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast(`Buku "${book.title}" berhasil diunduh!`, 'success');
-            
-            // Update stats
-            if (state.currentPage === 'home') {
-                renderHomePage();
             }
         }
 
@@ -791,7 +785,7 @@
         window.toggleFavorite = toggleFavorite;
         window.showBookDetail = showBookDetail;
         window.downloadBook = downloadBook;
-        window.startReading = startReading;
+        window.readBookOnline = readBookOnline;
         window.hideModal = hideModal;
         window.login = login;
 
@@ -800,4 +794,3 @@
     </script>
 </body>
 </html>
-
