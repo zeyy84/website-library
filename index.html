@@ -4286,5 +4286,898 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Make SYAFI available globally
 window.SYAFI = SYAFI;
-</script>>
+</// GANTI SELURUH BAGIAN <script> DI AKHIR FILE DENGAN KODE BERIKUT:
+
+<script>
+// ==================== SIMPLIFIED VERSION - FIXED ====================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('SYAFI Reader Starting...');
+    
+    // Hide loading screen immediately
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                console.log('Loading screen hidden');
+            }, 300);
+        }, 500);
+    }
+    
+    // Application State
+    const state = {
+        currentPage: 'home',
+        isAdmin: false,
+        isLoggedIn: false,
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        user: null,
+        selectedBook: null,
+        readingPage: 1,
+        fontSize: 18,
+        books: [
+            {
+                id: 1,
+                title: "To Kill a Mockingbird",
+                author: "Harper Lee",
+                year: 1960,
+                genre: "Fiksi",
+                rating: 4.8,
+                cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
+                description: "Kisah mengharukan tentang ketidakadilan rasial dan masa kecil di Amerika Selatan.",
+                totalPages: 324,
+                pages: 20,
+                content: [
+                    "Ketika dia hampir berusia tiga belas tahun, saudaraku Jem patah lengan parah di siku.",
+                    "Maycomb adalah kota tua, tetapi itu adalah kota tua yang lelah ketika aku pertama kali mengenalnya.",
+                    "Tempat Radley memikat Dill. Meskipun peringatan dan penjelasan kami, itu menariknya seperti bulan menarik air."
+                ],
+                downloads: 1250,
+                isFeatured: true,
+                createdAt: new Date('2025-01-15').getTime()
+            },
+            {
+                id: 2,
+                title: "1984",
+                author: "George Orwell",
+                year: 1949,
+                genre: "Fiksi",
+                rating: 4.7,
+                cover: "https://images.unsplash.com/photo-1495640452863-552b17d4c78b?w=400&h=600&fit=crop",
+                description: "Visi masa depan yang mengerikan di mana Partai mengontrol segala aspek kehidupan.",
+                totalPages: 328,
+                pages: 15,
+                content: [
+                    "Itu adalah hari yang cerah dan dingin di bulan April, dan jam-jam menunjukkan pukul tiga belas.",
+                    "BIG BROTHER MELIHAT ANDA, kata keterangannya, sementara mata gelap menatap jauh ke dalam mata Winston sendiri.",
+                    "Winston membelakangi telescreen. Itu lebih aman; meskipun, seperti yang dia ketahui, bahkan punggung pun bisa mengungkapkan."
+                ],
+                downloads: 980,
+                isFeatured: true,
+                createdAt: new Date('2025-02-10').getTime()
+            },
+            {
+                id: 3,
+                title: "Pride and Prejudice",
+                author: "Jane Austen",
+                year: 1813,
+                genre: "Romance",
+                rating: 4.6,
+                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=600&fit=crop",
+                description: "Kisah cinta abadi antara Elizabeth Bennet dan Mr. Darcy di Inggris era Regency.",
+                totalPages: 432,
+                pages: 25,
+                content: [
+                    "Ini adalah kebenaran yang diakui secara universal, bahwa seorang pria lajang yang memiliki harta yang baik, pasti menginginkan seorang istri.",
+                    "Betapapun sedikit perasaan atau pandangan pria seperti itu mungkin pada pertamanya memasuki lingkungan, kebenaran ini begitu tertanam dalam pikiran keluarga di sekitarnya.",
+                    "Tuan Bennet yang terkasih, kata istrinya kepadanya suatu hari, apakah Anda mendengar bahwa Netherfield Park disewa akhirnya?"
+                ],
+                downloads: 1100,
+                isFeatured: true,
+                createdAt: new Date('2025-03-05').getTime()
+            }
+        ],
+        favorites: JSON.parse(localStorage.getItem('syafiFavorites')) || [],
+        readingProgress: JSON.parse(localStorage.getItem('syafiReadingProgress')) || {}
+    };
+    
+    // Initialize
+    initializeApp();
+    
+    function initializeApp() {
+        console.log('Initializing app...');
+        
+        // Apply dark mode
+        if (state.darkMode) {
+            document.body.classList.add('dark');
+            document.getElementById('sunIcon').classList.add('hidden');
+            document.getElementById('moonIcon').classList.remove('hidden');
+        }
+        
+        // Check login
+        checkLogin();
+        
+        // Setup event listeners
+        setupEventListeners();
+        
+        // Load initial page
+        loadPage('home');
+        
+        console.log('App initialized successfully');
+    }
+    
+    function checkLogin() {
+        const user = localStorage.getItem('syafiUser');
+        if (user) {
+            state.user = JSON.parse(user);
+            state.isLoggedIn = true;
+            state.isAdmin = state.user.role === 'admin';
+            updateUserUI();
+        }
+    }
+    
+    function updateUserUI() {
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userProfile = document.getElementById('userProfile');
+        
+        if (state.isLoggedIn) {
+            if (adminLoginBtn) adminLoginBtn.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+            if (userProfile) userProfile.classList.remove('hidden');
+            
+            if (state.isAdmin) {
+                const adminNavBtn = document.getElementById('adminNavBtn');
+                if (adminNavBtn) adminNavBtn.classList.remove('hidden');
+            }
+        }
+    }
+    
+    function setupEventListeners() {
+        console.log('Setting up event listeners...');
+        
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Navigation
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage(btn.dataset.page);
+            });
+        });
+        
+        // Admin login
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        if (adminLoginBtn) {
+            adminLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal('login');
+            });
+        }
+        
+        // Close login modal
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        if (closeLoginModal) {
+            closeLoginModal.addEventListener('click', () => hideModal('login'));
+        }
+        
+        // Login form
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', handleLogin);
+        }
+        
+        // Logout
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', handleLogout);
+        }
+        
+        // Search
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                state.currentSearch = e.target.value;
+                if (state.currentPage === 'library') {
+                    renderLibraryPage();
+                }
+            });
+        }
+        
+        // Mobile search
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('input', (e) => {
+                state.currentSearch = e.target.value;
+                if (state.currentPage === 'library') {
+                    renderLibraryPage();
+                }
+            });
+        }
+        
+        // Close modals on outside click
+        document.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('loginModal')) {
+                hideModal('login');
+            }
+        });
+        
+        console.log('Event listeners setup complete');
+    }
+    
+    function toggleTheme() {
+        state.darkMode = !state.darkMode;
+        localStorage.setItem('darkMode', state.darkMode);
+        document.body.classList.toggle('dark');
+        
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        sunIcon.classList.toggle('hidden', state.darkMode);
+        moonIcon.classList.toggle('hidden', !state.darkMode);
+        
+        showToast(`Mode ${state.darkMode ? 'gelap' : 'terang'} diaktifkan`, 'success');
+    }
+    
+    function loadPage(page) {
+        console.log('Loading page:', page);
+        state.currentPage = page;
+        
+        // Update active nav button
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            if (btn.dataset.page === page) {
+                btn.classList.add('border-b-2', 'border-blue-500', 'text-blue-500', 'dark:text-blue-400');
+                btn.classList.remove('hover:text-blue-500', 'dark:hover:text-blue-400');
+            } else {
+                btn.classList.remove('border-b-2', 'border-blue-500', 'text-blue-500', 'dark:text-blue-400');
+                btn.classList.add('hover:text-blue-500', 'dark:hover:text-blue-400');
+            }
+        });
+        
+        // Hide all pages
+        document.querySelectorAll('#mainContent > div').forEach(div => {
+            div.classList.add('hidden');
+        });
+        
+        // Show current page
+        const pageElement = document.getElementById(page + 'Page');
+        if (pageElement) {
+            pageElement.classList.remove('hidden');
+        }
+        
+        // Load page content
+        switch(page) {
+            case 'home':
+                renderHomePage();
+                break;
+            case 'library':
+                renderLibraryPage();
+                break;
+            case 'categories':
+                renderCategoriesPage();
+                break;
+            case 'favorites':
+                renderFavoritesPage();
+                break;
+            case 'admin':
+                renderAdminPage();
+                break;
+        }
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function renderHomePage() {
+        console.log('Rendering home page...');
+        
+        // Update stats
+        const totalDownloads = state.books.reduce((sum, book) => sum + (book.downloads || 0), 0);
+        const activeReaders = Math.floor(totalDownloads * 0.3) + 150;
+        
+        const totalBooksCount = document.getElementById('totalBooksCount');
+        const activeReadersCount = document.getElementById('activeReadersCount');
+        const totalDownloadsCount = document.getElementById('totalDownloadsCount');
+        
+        if (totalBooksCount) totalBooksCount.textContent = state.books.length;
+        if (activeReadersCount) activeReadersCount.textContent = activeReaders.toLocaleString();
+        if (totalDownloadsCount) totalDownloadsCount.textContent = totalDownloads.toLocaleString();
+        
+        // Render featured books
+        const featuredBooks = state.books.filter(book => book.isFeatured).slice(0, 5);
+        renderBooks(featuredBooks, 'featuredBooksContainer');
+        
+        // Render recent books
+        const recentBooks = [...state.books]
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .slice(0, 8);
+        renderBooks(recentBooks, 'recentBooksContainer');
+        
+        // Render categories
+        renderCategories();
+    }
+    
+    function renderLibraryPage() {
+        console.log('Rendering library page...');
+        
+        // Get filtered books
+        let filteredBooks = [...state.books];
+        
+        if (state.currentSearch) {
+            const searchTerm = state.currentSearch.toLowerCase();
+            filteredBooks = filteredBooks.filter(book => 
+                book.title.toLowerCase().includes(searchTerm) ||
+                book.author.toLowerCase().includes(searchTerm) ||
+                book.genre.toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        // Render books
+        renderBooks(filteredBooks, 'allBooksContainer');
+        
+        // Show/hide no books message
+        const noBooksMessage = document.getElementById('noBooksMessage');
+        if (noBooksMessage) {
+            noBooksMessage.classList.toggle('hidden', filteredBooks.length > 0);
+        }
+    }
+    
+    function renderCategoriesPage() {
+        const container = document.getElementById('allCategoriesContainer');
+        if (!container) return;
+        
+        const categories = [
+            { name: 'Fiksi', count: state.books.filter(b => b.genre === 'Fiksi').length, color: 'bg-blue-500' },
+            { name: 'Non-Fiksi', count: 0, color: 'bg-green-500' },
+            { name: 'Romance', count: state.books.filter(b => b.genre === 'Romance').length, color: 'bg-pink-500' },
+            { name: 'Sejarah', count: 0, color: 'bg-yellow-500' },
+            { name: 'Sains', count: 0, color: 'bg-purple-500' },
+            { name: 'Teknologi', count: 0, color: 'bg-indigo-500' }
+        ];
+        
+        container.innerHTML = categories.map(cat => `
+            <button onclick="loadCategory('${cat.name}')" 
+                    class="flex flex-col items-center justify-center p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md transition-all">
+                <div class="w-14 h-14 rounded-full ${cat.color} flex items-center justify-center mb-3">
+                    <i class="fas fa-book text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold">${cat.name}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">${cat.count} buku</p>
+            </button>
+        `).join('');
+    }
+    
+    function loadCategory(categoryName) {
+        // Navigate to library with filtered category
+        loadPage('library');
+        state.currentSearch = categoryName;
+        
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        if (searchInput) searchInput.value = categoryName;
+        if (mobileSearchInput) mobileSearchInput.value = categoryName;
+        
+        renderLibraryPage();
+    }
+    
+    function renderFavoritesPage() {
+        const container = document.getElementById('favoritesContainer');
+        if (!container) return;
+        
+        const favoriteBooks = state.books.filter(book => 
+            state.favorites.includes(book.id)
+        );
+        
+        if (favoriteBooks.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12">
+                    <i class="fas fa-heart text-5xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Belum ada buku favorit</h3>
+                    <p class="text-gray-500 mb-6">Tambahkan buku ke favorit dengan menekan tombol hati pada buku yang Anda sukai</p>
+                    <button onclick="loadPage('library')" class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700">
+                        <i class="fas fa-book mr-2"></i>Jelajahi Buku
+                    </button>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold">${favoriteBooks.length} Buku Favorit</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    ${favoriteBooks.map(book => getBookCardHTML(book, true)).join('')}
+                </div>
+            `;
+        }
+    }
+    
+    function renderAdminPage() {
+        if (!state.isAdmin) {
+            showModal('login');
+            return;
+        }
+        
+        const adminPage = document.getElementById('adminPage');
+        if (!adminPage) return;
+        
+        adminPage.innerHTML = `
+            <div>
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold">Admin Panel</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Kelola koleksi buku SYAFI Reader</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="loadPage('home')" class="bg-gray-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-600 flex items-center gap-2">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md mb-8">
+                    <h3 class="text-xl font-bold mb-4">Statistik</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">${state.books.length}</div>
+                            <div class="text-gray-600 dark:text-gray-400">Total Buku</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 dark:bg-green-900/30 rounded-lg">
+                            <div class="text-3xl font-bold text-green-600 dark:text-green-400">${state.favorites.length}</div>
+                            <div class="text-gray-600 dark:text-gray-400">Total Favorit</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                            <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">${state.books.reduce((sum, book) => sum + (book.downloads || 0), 0)}</div>
+                            <div class="text-gray-600 dark:text-gray-400">Total Download</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="font-bold text-lg">Daftar Buku</h3>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Judul</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Penulis</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Genre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                ${state.books.map(book => `
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                        <td class="px-6 py-4">${book.title}</td>
+                                        <td class="px-6 py-4">${book.author}</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                                ${book.genre}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <span class="text-yellow-500 mr-1"><i class="fas fa-star"></i></span>
+                                                <span>${book.rating}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function renderBooks(books, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (books.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-search text-5xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Tidak ada buku yang ditemukan</h3>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = books.map(book => getBookCardHTML(book)).join('');
+    }
+    
+    function renderCategories() {
+        const container = document.getElementById('categoriesContainer');
+        if (!container) return;
+        
+        const categories = [
+            { name: 'Fiksi', count: state.books.filter(b => b.genre === 'Fiksi').length, color: 'bg-blue-500', icon: 'fas fa-book' },
+            { name: 'Romance', count: state.books.filter(b => b.genre === 'Romance').length, color: 'bg-pink-500', icon: 'fas fa-heart' }
+        ];
+        
+        container.innerHTML = categories.map(cat => `
+            <button onclick="loadCategory('${cat.name}')" 
+                    class="flex flex-col items-center justify-center p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md transition-all">
+                <div class="w-14 h-14 rounded-full ${cat.color} flex items-center justify-center mb-3">
+                    <i class="${cat.icon} text-white text-xl"></i>
+                </div>
+                <h3 class="font-semibold">${cat.name}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">${cat.count} buku</p>
+            </button>
+        `).join('');
+    }
+    
+    function getBookCardHTML(book, showRemove = false) {
+        const isFavorite = state.favorites.includes(book.id);
+        
+        return `
+            <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all bg-white dark:bg-gray-800">
+                <div class="relative">
+                    <img src="${book.cover}" alt="${book.title}" class="w-full h-64 object-cover">
+                    <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded">
+                        ${book.rating} <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <div class="absolute top-2 left-2">
+                        <button onclick="toggleFavorite(${book.id})" class="w-10 h-10 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center shadow-md hover:scale-110 transition-transform">
+                            <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'}"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-1 line-clamp-1">${book.title}</h3>
+                    <p class="text-sm mb-2 text-gray-600 dark:text-gray-300">
+                        ${book.author} • ${book.year}
+                    </p>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            ${book.genre}
+                        </span>
+                        <span class="text-sm">${book.totalPages} hlm</span>
+                    </div>
+                    
+                    <p class="text-sm mb-4 line-clamp-2">
+                        ${book.description}
+                    </p>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="openBookDetail(${book.id})" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2.5 rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
+                            <i class="fas fa-book-open"></i> Baca
+                        </button>
+                        <button onclick="downloadBook(${book.id})" class="p-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        ${showRemove ? `
+                            <button onclick="removeFromFavorites(${book.id})" class="p-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-red-500" title="Hapus dari favorit">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function openBookDetail(bookId) {
+        const book = state.books.find(b => b.id === bookId);
+        if (!book) return;
+        
+        const isFavorite = state.favorites.includes(bookId);
+        
+        const modal = document.getElementById('bookDetailModal');
+        if (!modal) return;
+        
+        modal.innerHTML = `
+            <div class="animate-fadeIn">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">${book.title}</h2>
+                        <p class="text-gray-600 dark:text-gray-400">${book.author} • ${book.year}</p>
+                    </div>
+                    <button onclick="hideModal('bookDetail')" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-8 mb-8">
+                    <div class="md:w-1/3">
+                        <div class="sticky top-0">
+                            <img src="${book.cover}" alt="${book.title}" class="w-full h-auto rounded-xl shadow-lg mb-4">
+                            <div class="flex gap-2 mb-4">
+                                <span class="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    ${book.genre}
+                                </span>
+                                <span class="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                    ${book.rating} <i class="fas fa-star"></i>
+                                </span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600 dark:text-gray-400">Halaman:</span>
+                                    <span class="font-medium">${book.totalPages}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600 dark:text-gray-400">Download:</span>
+                                    <span class="font-medium">${book.downloads || 0}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <button onclick="openReader(${book.id})" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 mb-3 flex items-center justify-center gap-2">
+                                    <i class="fas fa-book-open"></i> Baca Sekarang
+                                </button>
+                                <button onclick="downloadBook(${book.id})" class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 mb-3 flex items-center justify-center gap-2">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button onclick="toggleFavorite(${book.id})" class="w-full ${isFavorite ? 'bg-red-500' : 'bg-gray-200 dark:bg-gray-700'} text-${isFavorite ? 'white' : 'gray-700 dark:text-gray-300'} py-3 rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
+                                    <i class="fas fa-heart ${isFavorite ? 'text-white' : 'text-gray-600 dark:text-gray-400'}"></i> ${isFavorite ? 'Hapus dari Favorit' : 'Tambahkan ke Favorit'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-2/3">
+                        <div class="mb-6">
+                            <h3 class="font-bold text-lg mb-3">Deskripsi</h3>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${book.description}</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h3 class="font-bold text-lg mb-3">Preview</h3>
+                            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg max-h-60 overflow-y-auto">
+                                <p class="reading-font text-gray-700 dark:text-gray-300">${book.content[0]}</p>
+                                <p class="reading-font text-gray-700 dark:text-gray-300 mt-3">${book.content[1] || ''}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        showModal('bookDetail');
+    }
+    
+    function openReader(bookId) {
+        const book = state.books.find(b => b.id === bookId);
+        if (!book) return;
+        
+        state.selectedBook = book;
+        state.readingPage = 1;
+        
+        const readerPage = document.getElementById('readerPage');
+        if (!readerPage) return;
+        
+        readerPage.classList.remove('hidden');
+        readerPage.innerHTML = `
+            <div class="animate-fadeIn">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <button onclick="closeReader()" class="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <h1 class="text-2xl md:text-3xl font-bold mb-2">${book.title}</h1>
+                        <p class="text-gray-600 dark:text-gray-400">${book.author} • Halaman ${state.readingPage} dari ${book.content.length}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-10 min-h-[60vh] shadow-lg mb-8">
+                    <div id="readerContent" class="reading-font mx-auto max-w-3xl" style="font-size: ${state.fontSize}px;">
+                        ${book.content[state.readingPage - 1]}
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center gap-4 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+                    <button onclick="changePage(-1)" class="flex items-center gap-2 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700" ${state.readingPage <= 1 ? 'disabled' : ''}>
+                        <i class="fas fa-chevron-left"></i> Sebelumnya
+                    </button>
+                    
+                    <div class="text-center">
+                        <div class="font-medium">${state.readingPage} / ${book.content.length}</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                            ${Math.round((state.readingPage / book.content.length) * 100)}% selesai
+                        </div>
+                    </div>
+                    
+                    <button onclick="changePage(1)" class="flex items-center gap-2 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700" ${state.readingPage >= book.content.length ? 'disabled' : ''}>
+                        Berikutnya <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // Hide other pages
+        document.querySelectorAll('#mainContent > div').forEach(div => {
+            if (div.id !== 'readerPage') {
+                div.classList.add('hidden');
+            }
+        });
+    }
+    
+    function closeReader() {
+        loadPage('home');
+    }
+    
+    function changePage(delta) {
+        if (!state.selectedBook) return;
+        
+        const newPage = state.readingPage + delta;
+        if (newPage < 1 || newPage > state.selectedBook.content.length) return;
+        
+        state.readingPage = newPage;
+        
+        const readerContent = document.getElementById('readerContent');
+        const pageInfo = document.querySelector('#readerPage p.text-gray-600');
+        
+        if (readerContent) {
+            readerContent.textContent = state.selectedBook.content[state.readingPage - 1];
+        }
+        if (pageInfo) {
+            pageInfo.textContent = `${state.selectedBook.author} • Halaman ${state.readingPage} dari ${state.selectedBook.content.length}`;
+        }
+        
+        // Update buttons
+        const prevBtn = document.querySelector('#readerPage button:nth-child(1)');
+        const nextBtn = document.querySelector('#readerPage button:last-child');
+        if (prevBtn) prevBtn.disabled = state.readingPage <= 1;
+        if (nextBtn) nextBtn.disabled = state.readingPage >= state.selectedBook.content.length;
+    }
+    
+    function downloadBook(bookId) {
+        const book = state.books.find(b => b.id === bookId);
+        if (!book) return;
+        
+        // Increment download count
+        book.downloads = (book.downloads || 0) + 1;
+        
+        const content = `Buku: ${book.title}\nPenulis: ${book.author}\n\n${book.description}\n\n---\n\n${book.content.join('\n\n')}`;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${book.title.replace(/[^a-z0-9]/gi, '_')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast(`Buku "${book.title}" berhasil diunduh!`, 'success');
+    }
+    
+    function toggleFavorite(bookId) {
+        const index = state.favorites.indexOf(bookId);
+        
+        if (index === -1) {
+            state.favorites.push(bookId);
+            showToast('Buku ditambahkan ke favorit', 'success');
+        } else {
+            state.favorites.splice(index, 1);
+            showToast('Buku dihapus dari favorit', 'info');
+        }
+        
+        localStorage.setItem('syafiFavorites', JSON.stringify(state.favorites));
+        
+        // Update UI if on favorites page
+        if (state.currentPage === 'favorites') {
+            renderFavoritesPage();
+        }
+    }
+    
+    function removeFromFavorites(bookId) {
+        toggleFavorite(bookId);
+    }
+    
+    function showModal(modalName) {
+        const modal = document.getElementById(modalName + 'Modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    }
+    
+    function hideModal(modalName) {
+        const modal = document.getElementById(modalName + 'Modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+    
+    function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        // Demo credentials
+        if ((username === 'admin' && password === 'syafi2026') || 
+            (username === 'user' && password === 'user123')) {
+            
+            const user = {
+                name: username === 'admin' ? 'Administrator' : 'Pengguna',
+                username: username,
+                role: username === 'admin' ? 'admin' : 'user'
+            };
+            
+            state.user = user;
+            state.isLoggedIn = true;
+            state.isAdmin = user.role === 'admin';
+            
+            localStorage.setItem('syafiUser', JSON.stringify(user));
+            updateUserUI();
+            hideModal('login');
+            showToast(`Selamat datang, ${user.name}!`, 'success');
+        } else {
+            const loginError = document.getElementById('loginError');
+            if (loginError) {
+                loginError.classList.remove('hidden');
+            }
+        }
+    }
+    
+    function handleLogout() {
+        state.user = null;
+        state.isLoggedIn = false;
+        state.isAdmin = false;
+        
+        localStorage.removeItem('syafiUser');
+        updateUserUI();
+        loadPage('home');
+        showToast('Anda telah berhasil keluar', 'info');
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        
+        if (!toast || !toastMessage || !toastIcon) return;
+        
+        toastMessage.textContent = message;
+        
+        switch(type) {
+            case 'success':
+                toastIcon.className = 'fas fa-check-circle text-green-400';
+                break;
+            case 'error':
+                toastIcon.className = 'fas fa-exclamation-circle text-red-400';
+                break;
+            case 'info':
+                toastIcon.className = 'fas fa-info-circle text-blue-400';
+                break;
+        }
+        
+        toast.classList.remove('translate-x-full');
+        
+        setTimeout(() => {
+            toast.classList.add('translate-x-full');
+        }, 3000);
+    }
+    
+    // Make functions available globally
+    window.loadPage = loadPage;
+    window.toggleFavorite = toggleFavorite;
+    window.openBookDetail = openBookDetail;
+    window.downloadBook = downloadBook;
+    window.openReader = openReader;
+    window.closeReader = closeReader;
+    window.changePage = changePage;
+    window.removeFromFavorites = removeFromFavorites;
+    window.loadCategory = loadCategory;
+    window.showModal = showModal;
+    window.hideModal = hideModal;
+    
+    console.log('App ready!');
+});
+</script>>>
+
 
