@@ -3,465 +3,1021 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kata-Kata Motivasi dari Tokoh Terkenal</title>
+    <title>SYAFI READING - Kutipan Motivasi Inspiratif</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 15px 40px rgba(67, 97, 238, 0.15);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+            background-color: #f9f9ff;
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
         
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            background: var(--gradient);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .admin-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            background: #e11575;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            min-width: 180px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        /* Main Content */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-            color: white;
-            border-radius: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .main-content {
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
         
-        @media (max-width: 768px) {
-            .main-content {
+        @media (max-width: 1024px) {
+            .content-grid {
                 grid-template-columns: 1fr;
             }
         }
         
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #182848;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #4b6cb7;
+        /* Quotes Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
         
-        /* Motivasi Tokoh */
-        .quotes-container {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            height: fit-content;
+        .section-title {
+            font-size: 2rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .quote-cards {
+            display: grid;
+            gap: 25px;
         }
         
         .quote-card {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid #4b6cb7;
-            transition: transform 0.3s ease;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            position: relative;
+            overflow: hidden;
         }
         
         .quote-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .quote-card:before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(67, 97, 238, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
         }
         
         .quote-text {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-style: italic;
-            margin-bottom: 15px;
-            color: #444;
+            color: var(--dark);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+        }
+        
+        .quote-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .quote-author {
-            font-weight: 600;
-            color: #4b6cb7;
-            text-align: right;
+            font-weight: 700;
+            color: var(--primary);
             font-size: 1.1rem;
         }
         
-        .quote-author:before {
-            content: "— ";
+        .quote-category {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
         
-        /* Form Tambah Kutipan */
+        /* Add Quote Form */
         .add-quote-container {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-icon {
+            background: var(--gradient);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
         }
         
         .form-group {
             margin-bottom: 25px;
         }
         
-        label {
+        .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #333;
+            color: var(--dark);
         }
         
-        input, textarea {
+        .form-input, .form-textarea, .form-select {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5eb;
-            border-radius: 8px;
+            padding: 16px 20px;
+            border: 2px solid #e6e9f0;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: #f9f9ff;
         }
         
-        input:focus, textarea:focus {
-            border-color: #4b6cb7;
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
         }
         
-        textarea {
+        .form-textarea {
             min-height: 150px;
             resize: vertical;
         }
         
-        button {
-            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        .submit-btn {
+            background: var(--gradient);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(75, 108, 183, 0.4);
-        }
-        
-        button i {
-            margin-right: 10px;
-        }
-        
-        /* Kutipan Saya */
-        .my-quotes-container {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 50px;
-        }
-        
-        .my-quote-card {
-            background-color: #f0f7ff;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 5px solid #4b6cb7;
-            position: relative;
-        }
-        
-        .delete-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* User Quotes */
+        .user-quotes-section {
+            margin-top: 80px;
+        }
+        
+        .user-quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .user-quote-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            position: relative;
+        }
+        
+        .user-quote-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 16px 0 0 16px;
+        }
+        
+        .user-quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .user-quote-author {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        .user-quote-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .user-quote-text {
+            font-size: 1.1rem;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .admin-controls {
+            display: none;
+            margin-top: 20px;
+            text-align: right;
+        }
+        
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .delete-btn:hover {
-            background-color: #ff5252;
+            background: #ff3742;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
         }
         
-        .empty-message {
-            text-align: center;
-            color: #888;
-            font-style: italic;
-            padding: 30px;
+        /* Modal Admin */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .admin-panel {
+            margin-top: 30px;
+        }
+        
+        .admin-quote-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
         }
         
         /* Footer */
         footer {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            border-top: 1px solid #e1e5eb;
-            margin-top: 30px;
+            background: var(--dark);
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
         }
         
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #4361ee, #f72585);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-description {
+            color: #aaa;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            background: rgba(255, 255, 255, 0.1);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+        
+        /* Notification */
         .notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
             color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 18px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             display: none;
-            z-index: 1000;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .user-quotes-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-quote-left"></i> Kata-Kata Motivasi <i class="fas fa-quote-right"></i></h1>
-            <p class="subtitle">Kumpulan kutipan inspiratif dari tokoh-tokoh terkenal dunia. Tambahkan juga kata-kata motivasi Anda sendiri!</p>
-        </header>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="logo-text">SYAFI READING</div>
+            </a>
+            <div class="nav-actions">
+                <button id="adminBtn" class="admin-btn">
+                    <i class="fas fa-lock"></i> Admin Panel
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Bagikan Inspirasi, Tebar Motivasi</h1>
+        <p class="hero-subtitle">
+            Temukan kata-kata motivasi dari tokoh dunia dan bagikan kata-kata inspiratif Anda sendiri. 
+            Setiap kutipan yang Anda bagikan dapat menginspirasi ribuan orang.
+        </p>
         
-        <div class="main-content">
-            <div class="quotes-container">
-                <h2 class="section-title"><i class="fas fa-star"></i> Kutipan Tokoh Terkenal</h2>
-                <div id="famous-quotes">
-                    <!-- Kutipan dari tokoh terkenal akan dimuat di sini -->
+        <div class="hero-stats">
+            <div class="stat-item fade-in">
+                <div class="stat-number" id="totalFamousQuotes">12</div>
+                <div class="stat-label">Kutipan Tokoh</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" id="totalUserQuotes">0</div>
+                <div class="stat-label">Kutipan Pengunjung</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Inspirasi Diciptakan</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content-grid">
+            <!-- Famous Quotes -->
+            <div>
+                <div class="section-header">
+                    <h2 class="section-title">Kutipan Tokoh Dunia</h2>
+                    <div class="quote-category">Inspirasi Global</div>
+                </div>
+                
+                <div class="quote-cards" id="famousQuotesContainer">
+                    <!-- Famous quotes will be loaded here -->
                 </div>
             </div>
             
-            <div class="add-quote-container">
-                <h2 class="section-title"><i class="fas fa-plus-circle"></i> Tambah Kutipan Anda</h2>
-                <form id="add-quote-form">
-                    <div class="form-group">
-                        <label for="quote-text">Kutipan Motivasi</label>
-                        <textarea id="quote-text" placeholder="Tulis kata-kata motivasi Anda di sini..." required></textarea>
+            <!-- Add Quote Form -->
+            <div>
+                <div class="add-quote-container">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-pen-nib"></i>
+                        </div>
+                        <h2>Bagikan Kutipan Anda</h2>
+                        <p>Inspirasi orang lain dengan kata-kata Anda</p>
                     </div>
-                    <div class="form-group">
-                        <label for="author-name">Nama Anda (atau nama tokoh)</label>
-                        <input type="text" id="author-name" placeholder="Masukkan nama Anda atau nama tokoh" required>
-                    </div>
-                    <button type="submit"><i class="fas fa-cloud-upload-alt"></i> Unggah Kutipan</button>
-                </form>
+                    
+                    <form id="addQuoteForm">
+                        <div class="form-group">
+                            <label class="form-label">Nama Anda</label>
+                            <input type="text" class="form-input" id="authorName" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Kutipan Motivasi</label>
+                            <textarea class="form-textarea" id="quoteText" placeholder="Tulis kutipan inspiratif Anda di sini..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select" id="quoteCategory">
+                                <option value="Motivasi">Motivasi</option>
+                                <option value="Inspirasi">Inspirasi</option>
+                                <option value="Kehidupan">Kehidupan</option>
+                                <option value="Kesuksesan">Kesuksesan</option>
+                                <option value="Cinta">Cinta</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Bagikan Kutipan
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         
-        <div class="my-quotes-container">
-            <h2 class="section-title"><i class="fas fa-user"></i> Kutipan Saya</h2>
-            <div id="my-quotes">
-                <div class="empty-message">Belum ada kutipan yang Anda tambahkan. Mulailah dengan menambahkan kutipan pertama Anda!</div>
+        <!-- User Quotes Section -->
+        <div class="user-quotes-section">
+            <div class="section-header">
+                <h2 class="section-title">Kutipan dari Pengunjung</h2>
+                <div class="quote-category">Inspirasi Komunitas</div>
+            </div>
+            
+            <p style="color: var(--gray); margin-bottom: 20px;">
+                Bergabunglah dengan komunitas inspiratif dengan membagikan kata-kata motivasi Anda. 
+                Setiap kutipan yang Anda bagikan akan muncul di sini.
+            </p>
+            
+            <div class="user-quotes-grid" id="userQuotesContainer">
+                <!-- User quotes will be loaded here -->
             </div>
         </div>
-        
-        <footer>
-            <p>Website Motivasi &copy; 2023 | Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i> untuk menginspirasi</p>
-        </footer>
     </div>
-    
-    <div class="notification" id="notification">Kutipan berhasil ditambahkan!</div>
-    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">SYAFI READING</div>
+                <p class="footer-description">
+                    Platform berbagi kutipan motivasi dan inspirasi dari tokoh dunia 
+                    dan komunitas. Mari bersama-sama menyebarkan energi positif melalui kata-kata.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Kategori Populer</h3>
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Motivasi Kerja</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Inspirasi Harian</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Kutipan Tokoh</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Kata-kata Cinta</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Kontak</h3>
+                <p style="color: #aaa; margin-bottom: 15px;"><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@safireading.com</p>
+                <p style="color: #aaa; margin-bottom: 15px;"><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</p>
+                <p style="color: #aaa;"><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 SYAFI READING. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-heart" style="color: #f72585;"></i> untuk dunia yang lebih inspiratif.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 class="modal-title">Admin Panel</h2>
+            <p style="color: var(--gray); margin-bottom: 20px;">Masukkan password admin untuk mengelola kutipan pengunjung.</p>
+            
+            <div class="form-group">
+                <label class="form-label">Password Admin</label>
+                <input type="password" class="form-input" id="adminPassword" placeholder="Masukkan password">
+                <p id="passwordError" style="color: #ff4757; margin-top: 10px; display: none;">Password salah!</p>
+            </div>
+            
+            <button id="loginAdmin" class="submit-btn" style="margin-top: 20px;">
+                <i class="fas fa-sign-in-alt"></i> Masuk sebagai Admin
+            </button>
+            
+            <div id="adminPanel" class="admin-panel" style="display: none;">
+                <h3 style="margin-bottom: 20px; color: var(--dark);">Kelola Kutipan Pengunjung</h3>
+                
+                <div class="admin-quote-list" id="adminQuoteList">
+                    <!-- Admin quote list will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Kutipan berhasil ditambahkan!</span>
+    </div>
+
     <script>
         // Data kutipan dari tokoh terkenal
         const famousQuotes = [
-            {
-                text: "Hidup adalah tentang membuat dampak, bukan hanya mencari nafkah.",
-                author: "Kevin Kruse"
-            },
-            {
-                text: "Apapun yang dapat kamu bayangkan, itu nyata.",
-                author: "Pablo Picasso"
-            },
-            {
-                text: "Sukses bukanlah akhir, kegagalan bukanlah fatal: yang terpenting adalah keberanian untuk melanjutkan.",
-                author: "Winston Churchill"
-            },
-            {
-                text: "Cara terbaik untuk memulai adalah dengan berhenti berbicara dan mulai melakukan.",
-                author: "Walt Disney"
-            },
-            {
-                text: "Masa depan milik mereka yang percaya pada keindahan mimpi-mimpi mereka.",
-                author: "Eleanor Roosevelt"
-            },
-            {
-                text: "Satu-satunya cara untuk melakukan pekerjaan yang hebat adalah dengan mencintai apa yang Anda lakukan.",
-                author: "Steve Jobs"
-            },
-            {
-                text: "Jangan menyerah. Menderitalah sekarang dan hiduplah sebagai juara nantinya.",
-                author: "Muhammad Ali"
-            },
-            {
-                text: "Pikiran adalah segalanya. Apa yang kamu pikirkan, itulah yang akan terjadi.",
-                author: "Buddha"
-            },
-            {
-                text: "Kebahagiaan bukanlah sesuatu yang sudah jadi. Itu berasal dari tindakanmu sendiri.",
-                author: "Dalai Lama"
-            },
-            {
-                text: "Orang yang cukup gila untuk berpikir bisa mengubah dunia, adalah orang yang melakukannya.",
-                author: "Steve Jobs"
-            }
+            { text: "Hidup adalah tentang membuat dampak, bukan hanya mencari nafkah.", author: "Kevin Kruse", category: "Motivasi" },
+            { text: "Apapun yang dapat kamu bayangkan, itu nyata.", author: "Pablo Picasso", category: "Inspirasi" },
+            { text: "Sukses bukanlah akhir, kegagalan bukanlah fatal: yang terpenting adalah keberanian untuk melanjutkan.", author: "Winston Churchill", category: "Kesuksesan" },
+            { text: "Cara terbaik untuk memulai adalah dengan berhenti berbicara dan mulai melakukan.", author: "Walt Disney", category: "Motivasi" },
+            { text: "Masa depan milik mereka yang percaya pada keindahan mimpi-mimpi mereka.", author: "Eleanor Roosevelt", category: "Inspirasi" },
+            { text: "Satu-satunya cara untuk melakukan pekerjaan yang hebat adalah dengan mencintai apa yang Anda lakukan.", author: "Steve Jobs", category: "Kesuksesan" },
+            { text: "Jangan menyerah. Menderitalah sekarang dan hiduplah sebagai juara nantinya.", author: "Muhammad Ali", category: "Motivasi" },
+            { text: "Pikiran adalah segalanya. Apa yang kamu pikirkan, itulah yang akan terjadi.", author: "Buddha", category: "Kehidupan" },
+            { text: "Kebahagiaan bukanlah sesuatu yang sudah jadi. Itu berasal dari tindakanmu sendiri.", author: "Dalai Lama", category: "Kehidupan" },
+            { text: "Orang yang cukup gila untuk berpikir bisa mengubah dunia, adalah orang yang melakukannya.", author: "Steve Jobs", category: "Inspirasi" },
+            { text: "Kualitas terbesar hidup adalah memberi. Yang terpenting adalah bagaimana kita memberi.", author: "Winston Churchill", category: "Kehidupan" },
+            { text: "Mimpi tidak akan terwujud dengan sendirinya, Anda harus mewujudkannya.", author: "Stephen Covey", category: "Motivasi" }
         ];
+
+        // Admin password (bisa diubah)
+        const ADMIN_PASSWORD = "syafi2023";
+        let isAdminLoggedIn = false;
+
+        // DOM Elements
+        const adminBtn = document.getElementById('adminBtn');
+        const adminModal = document.getElementById('adminModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginAdminBtn = document.getElementById('loginAdmin');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const adminPanel = document.getElementById('adminPanel');
+        const passwordError = document.getElementById('passwordError');
         
-        // Fungsi untuk menampilkan kutipan dari tokoh terkenal
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            displayFamousQuotes();
+            loadUserQuotes();
+            updateStats();
+            
+            // Set up event listeners
+            document.getElementById('addQuoteForm').addEventListener('submit', addUserQuote);
+            adminBtn.addEventListener('click', openAdminModal);
+            closeModal.addEventListener('click', closeAdminModal);
+            loginAdminBtn.addEventListener('click', loginAdmin);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === adminModal) {
+                    closeAdminModal();
+                }
+            });
+            
+            // Add some sample user quotes if none exist
+            if (!localStorage.getItem('syafiUserQuotes')) {
+                const sampleQuotes = [
+                    {
+                        id: Date.now(),
+                        author: "Rina",
+                        text: "Jangan pernah berhenti bermimpi, karena mimpi adalah bahan bakar kehidupan.",
+                        category: "Inspirasi",
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: Date.now() + 1,
+                        author: "Andi",
+                        text: "Kesuksesan dimulai dari langkah pertama yang berani.",
+                        category: "Motivasi",
+                        date: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('syafiUserQuotes', JSON.stringify(sampleQuotes));
+                loadUserQuotes();
+                updateStats();
+            }
+        });
+
+        // Display famous quotes
         function displayFamousQuotes() {
-            const container = document.getElementById('famous-quotes');
+            const container = document.getElementById('famousQuotesContainer');
+            container.innerHTML = '';
             
             famousQuotes.forEach(quote => {
                 const quoteCard = document.createElement('div');
-                quoteCard.className = 'quote-card';
+                quoteCard.className = 'quote-card fade-in';
                 quoteCard.innerHTML = `
                     <p class="quote-text">"${quote.text}"</p>
-                    <p class="quote-author">${quote.author}</p>
+                    <div class="quote-footer">
+                        <div class="quote-author">${quote.author}</div>
+                        <div class="quote-category">${quote.category}</div>
+                    </div>
                 `;
                 container.appendChild(quoteCard);
             });
-        }
-        
-        // Fungsi untuk memuat kutipan yang sudah disimpan di localStorage
-        function loadMyQuotes() {
-            const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
-            const container = document.getElementById('my-quotes');
             
-            if (myQuotes.length === 0) {
-                container.innerHTML = '<div class="empty-message">Belum ada kutipan yang Anda tambahkan. Mulailah dengan menambahkan kutipan pertama Anda!</div>';
+            // Update famous quotes count
+            document.getElementById('totalFamousQuotes').textContent = famousQuotes.length;
+        }
+
+        // Load user quotes
+        function loadUserQuotes() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const container = document.getElementById('userQuotesContainer');
+            
+            if (userQuotes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray);">
+                        <i class="fas fa-comment-alt" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h3 style="margin-bottom: 10px;">Belum ada kutipan dari pengunjung</h3>
+                        <p>Jadilah yang pertama membagikan kata-kata inspiratif Anda!</p>
+                    </div>
+                `;
                 return;
             }
             
             container.innerHTML = '';
             
-            myQuotes.forEach((quote, index) => {
+            // Sort by newest first
+            userQuotes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            userQuotes.forEach(quote => {
                 const quoteCard = document.createElement('div');
-                quoteCard.className = 'my-quote-card';
+                quoteCard.className = 'user-quote-card fade-in';
                 quoteCard.innerHTML = `
-                    <button class="delete-btn" onclick="deleteQuote(${index})"><i class="fas fa-trash"></i></button>
-                    <p class="quote-text">"${quote.text}"</p>
-                    <p class="quote-author">${quote.author}</p>
+                    <div class="user-quote-header">
+                        <div class="user-quote-author">${quote.author}</div>
+                        <div class="user-quote-date">${formatDate(quote.date)}</div>
+                    </div>
+                    <p class="user-quote-text">"${quote.text}"</p>
+                    <div class="admin-controls" data-quote-id="${quote.id}">
+                        <button class="delete-btn" onclick="deleteUserQuote(${quote.id})">
+                            <i class="fas fa-trash"></i> Hapus Kutipan
+                        </button>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <span class="quote-category">${quote.category}</span>
+                    </div>
                 `;
                 container.appendChild(quoteCard);
             });
+            
+            // Update user quotes count
+            document.getElementById('totalUserQuotes').textContent = userQuotes.length;
+            
+            // Show admin controls if logged in
+            if (isAdminLoggedIn) {
+                document.querySelectorAll('.admin-controls').forEach(control => {
+                    control.style.display = 'block';
+                });
+            }
         }
-        
-        // Fungsi untuk menambah kutipan baru
-        function addQuote(event) {
+
+        // Add user quote
+        function addUserQuote(event) {
             event.preventDefault();
             
-            const quoteText = document.getElementById('quote-text').value.trim();
-            const authorName = document.getElementById('author-name').value.trim();
+            const author = document.getElementById('authorName').value.trim();
+            const text = document.getElementById('quoteText').value.trim();
+            const category = document.getElementById('quoteCategory').value;
             
-            if (!quoteText || !authorName) {
-                alert('Silakan isi semua kolom!');
+            if (!author || !text) {
+                showNotification('Harap isi semua kolom!', 'error');
                 return;
             }
             
-            // Ambil data kutipan yang sudah ada
-            const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
-            
-            // Tambahkan kutipan baru
-            myQuotes.push({
-                text: quoteText,
-                author: authorName,
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const newQuote = {
+                id: Date.now(),
+                author,
+                text,
+                category,
                 date: new Date().toISOString()
-            });
+            };
             
-            // Simpan ke localStorage
-            localStorage.setItem('myMotivationalQuotes', JSON.stringify(myQuotes));
+            userQuotes.push(newQuote);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
             
             // Reset form
-            document.getElementById('add-quote-form').reset();
+            document.getElementById('addQuoteForm').reset();
             
-            // Perbarui tampilan kutipan saya
-            loadMyQuotes();
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
             
-            // Tampilkan notifikasi
-            showNotification('Kutipan berhasil ditambahkan!');
+            // Show success notification
+            showNotification('Kutipan Anda berhasil ditambahkan!', 'success');
         }
-        
-        // Fungsi untuk menghapus kutipan
-        function deleteQuote(index) {
-            if (confirm('Apakah Anda yakin ingin menghapus kutipan ini?')) {
-                const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
-                myQuotes.splice(index, 1);
-                localStorage.setItem('myMotivationalQuotes', JSON.stringify(myQuotes));
-                loadMyQuotes();
-                showNotification('Kutipan berhasil dihapus!');
-            }
-        }
-        
-        // Fungsi untuk menampilkan notifikasi
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            
-            // Atur warna notifikasi berdasarkan pesan
-            if (message.includes('dihapus')) {
-                notification.style.backgroundColor = '#ff6b6b';
-            } else {
-                notification.style.backgroundColor = '#4CAF50';
+
+        // Delete user quote (admin only)
+        function deleteUserQuote(quoteId) {
+            if (!isAdminLoggedIn) {
+                showNotification('Hanya admin yang dapat menghapus kutipan.', 'error');
+                return;
             }
             
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tampilkan kutipan dari tokoh terkenal
-            displayFamousQuotes();
-            
-            // Tampilkan kutipan yang sudah disimpan
-            loadMyQuotes();
-            
-            // Tambahkan event listener untuk form
-            document.getElementById('add-quote-form').addEventListener('submit', addQuote);
-            
-            // Tambahkan beberapa contoh kutipan jika localStorage kosong
-            if (!localStorage.getItem('myMotivationalQuotes')) {
-                const initialQuotes = [
-                    {
-                        text: "Jangan takut gagal, takutlah jika tidak pernah mencoba.",
-                        author: "Anda",
-                        date: new Date().toISOString()
-                    },
-                    {
-                        text: "Setiap hari adalah kesempatan baru untuk menjadi lebih baik.",
-                        author: "Anda",
-                        date: new Date().toISOString()
-                    }
-                ];
-                localStorage.setItem('myMotivationalQuotes', JSON.stringify(initialQuotes));
-                loadMyQuotes();
+            if (!confirm('Apakah Anda yakin ingin menghapus kutipan ini?')) {
+                return;
             }
-        });
-    </script>
-</body>
-</html>
+            
+            let userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            userQuotes = userQuotes.filter(quote => quote.id !== quoteId);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
+            
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
+            
+            // Show notification
+            showNotification('Kutipan berhasil dihapus!', 'success');
+        }
+
+        // Admin functions
+        function openAdminModal() {
+            adminModal.style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            adminModal.style.display = 'none';
+            adminPasswordInput.value = '';
+            passwordError.style.display = 'none';
+        }
+
+        function loginAdmin() {
+            const password = adminPasswordInput.value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                adminPanel.style.display = 'block';
+                passwordError.style.display = 'none';
+                
+                // Load admin quote list
+                loadAdminQuoteList();
+                
+                // Enable
