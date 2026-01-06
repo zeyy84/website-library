@@ -284,150 +284,6 @@
             gap: 5px;
         }
         
-        /* Interaction Buttons */
-        .interaction-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .like-btn {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .like-btn:hover {
-            background: rgba(255, 59, 59, 0.1);
-            color: #ff3b3b;
-        }
-        
-        .like-btn.liked {
-            color: #ff3b3b;
-        }
-        
-        .comment-btn {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .comment-btn:hover {
-            background: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
-        }
-        
-        /* Comments Section */
-        .comments-section {
-            margin-top: 20px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .comments-section.expanded {
-            display: block;
-        }
-        
-        .comments-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #f8f9ff;
-            border-radius: 10px;
-        }
-        
-        .comment-item {
-            padding: 12px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .comment-item:last-child {
-            border-bottom: none;
-        }
-        
-        .comment-author {
-            font-weight: 600;
-            color: var(--accent);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .comment-text {
-            font-size: 0.95rem;
-            color: var(--dark);
-        }
-        
-        .comment-date {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 5px;
-        }
-        
-        .comment-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .comment-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #e6e9f0;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            background: #f9f9ff;
-        }
-        
-        .comment-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 3px 10px rgba(67, 97, 238, 0.1);
-        }
-        
-        .comment-submit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-        
-        .comment-submit-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-        
-        .no-comments {
-            text-align: center;
-            padding: 20px;
-            color: var(--gray);
-            font-style: italic;
-        }
-        
         /* Add Quote Form */
         .add-quote-container {
             background: white;
@@ -763,15 +619,6 @@
             .user-quotes-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .interaction-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .comment-form {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -811,8 +658,8 @@
                 <div class="stat-label">Kutipan Pengunjung</div>
             </div>
             <div class="stat-item fade-in">
-                <div class="stat-number" id="totalLikes">0</div>
-                <div class="stat-label">Total Likes</div>
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Inspirasi Diciptakan</div>
             </div>
         </div>
     </section>
@@ -904,7 +751,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2023 SYAFI READING. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-heart" style="color: #ff3b3b;"></i> untuk dunia yang lebih inspiratif.</p>
+            <p>&copy; 2023 SYAFI READING. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-star" style="color: #e8f70a;"></i> untuk dunia yang lebih inspiratif.</p>
         </div>
     </footer>
 
@@ -942,8 +789,9 @@
     </div>
 
     <script>
-        // Data kutipan dari tokoh terkenal
+        // Data kutipan dari tokoh terkenal - dengan kutipan baru yang diminta
         const famousQuotes = [
+            // Kutipan baru dari permintaan
             { 
                 text: "Jadilah dirimu sendiri; karena orang lain sudah ada.", 
                 author: "Oscar Wilde", 
@@ -1048,22 +896,29 @@
                 text: "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya.", 
                 author: "Mahatma Gandhi", 
                 likes: 75000
+            },
+            
+            // Kutipan sebelumnya
+            { 
+                text: "Hidup adalah tentang membuat dampak, bukan hanya mencari nafkah.", 
+                author: "Kevin Kruse", 
+                likes: 68000
+            },
+            { 
+                text: "Apapun yang dapat kamu bayangkan, itu nyata.", 
+                author: "Pablo Picasso", 
+                likes: 72000
+            },
+            { 
+                text: "Sukses bukanlah akhir, kegagalan bukanlah fatal: yang terpenting adalah keberanian untuk melanjutkan.", 
+                author: "Winston Churchill", 
+                likes: 81000
             }
         ];
 
         // Admin password (bisa diubah)
         const ADMIN_PASSWORD = "syafi2023";
         let isAdminLoggedIn = false;
-
-        // Generate unique visitor ID
-        const getVisitorId = () => {
-            let visitorId = localStorage.getItem('syafi_visitor_id');
-            if (!visitorId) {
-                visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('syafi_visitor_id', visitorId);
-            }
-            return visitorId;
-        };
 
         // DOM Elements
         const adminBtn = document.getElementById('adminBtn');
@@ -1093,4 +948,265 @@
                 }
             });
             
-            // Initialize sample data if none exists
+            // Add some sample user quotes if none exist
+            if (!localStorage.getItem('syafiUserQuotes')) {
+                const sampleQuotes = [
+                    {
+                        id: Date.now(),
+                        author: "123",
+                        text: "Apanich.",
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: Date.now() + 1,
+                        author: "don",
+                        text: "Assalamualaikum.",
+                        date: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('syafiUserQuotes', JSON.stringify(sampleQuotes));
+                loadUserQuotes();
+                updateStats();
+            }
+        });
+
+        // Display famous quotes
+        function displayFamousQuotes() {
+            const container = document.getElementById('famousQuotesContainer');
+            container.innerHTML = '';
+            
+            famousQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'quote-card fade-in';
+                quoteCard.innerHTML = `
+                    <p class="quote-text">"${quote.text}"</p>
+                    <div class="quote-footer">
+                        <div class="quote-author">${quote.author}</div>
+                    </div>
+                    <div class="quote-likes">
+                        <i class="fas fa-star" style="color: #e8f70a;"></i>
+                        <span>${formatNumber(quote.likes)} suka</span>
+                    </div>
+                `;
+                container.appendChild(quoteCard);
+            });
+            
+            // Update famous quotes count
+            document.getElementById('totalFamousQuotes').textContent = famousQuotes.length;
+        }
+
+        // Load user quotes
+        function loadUserQuotes() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const container = document.getElementById('userQuotesContainer');
+            
+            if (userQuotes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray);">
+                        <i class="fas fa-comment-alt" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h3 style="margin-bottom: 10px;">Belum ada kutipan dari pengunjung</h3>
+                        <p>Jadilah yang pertama membagikan kata-kata inspiratif Anda!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            // Sort by newest first
+            userQuotes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            userQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'user-quote-card fade-in';
+                quoteCard.innerHTML = `
+                    <div class="user-quote-header">
+                        <div class="user-quote-author">${quote.author}</div>
+                        <div class="user-quote-date">${formatDate(quote.date)}</div>
+                    </div>
+                    <p class="user-quote-text">"${quote.text}"</p>
+                    <div class="admin-controls" data-quote-id="${quote.id}">
+                        <button class="delete-btn" onclick="deleteUserQuote(${quote.id})">
+                            <i class="fas fa-trash"></i> Hapus Kutipan
+                        </button>
+                    </div>
+                `;
+                container.appendChild(quoteCard);
+            });
+            
+            // Update user quotes count
+            document.getElementById('totalUserQuotes').textContent = userQuotes.length;
+            
+            // Show admin controls if logged in
+            if (isAdminLoggedIn) {
+                document.querySelectorAll('.admin-controls').forEach(control => {
+                    control.style.display = 'block';
+                });
+            }
+        }
+
+        // Add user quote
+        function addUserQuote(event) {
+            event.preventDefault();
+            
+            const author = document.getElementById('authorName').value.trim();
+            const text = document.getElementById('quoteText').value.trim();
+            
+            if (!author || !text) {
+                showNotification('Harap isi semua kolom!', 'error');
+                return;
+            }
+            
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const newQuote = {
+                id: Date.now(),
+                author,
+                text,
+                date: new Date().toISOString()
+            };
+            
+            userQuotes.push(newQuote);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
+            
+            // Reset form
+            document.getElementById('addQuoteForm').reset();
+            
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
+            
+            // Show success notification
+            showNotification('Kutipan Anda berhasil ditambahkan!', 'success');
+        }
+
+        // Delete user quote (admin only)
+        function deleteUserQuote(quoteId) {
+            if (!isAdminLoggedIn) {
+                showNotification('Hanya admin yang dapat menghapus kutipan.', 'error');
+                return;
+            }
+            
+            if (!confirm('Apakah Anda yakin ingin menghapus kutipan ini?')) {
+                return;
+            }
+            
+            let userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            userQuotes = userQuotes.filter(quote => quote.id !== quoteId);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
+            
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
+            
+            // Show notification
+            showNotification('Kutipan berhasil dihapus!', 'success');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            document.getElementById('totalUserQuotes').textContent = userQuotes.length;
+        }
+
+        // Admin functions
+        function openAdminModal() {
+            adminModal.style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            adminModal.style.display = 'none';
+            adminPasswordInput.value = '';
+            passwordError.style.display = 'none';
+        }
+
+        function loginAdmin() {
+            const password = adminPasswordInput.value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                adminPanel.style.display = 'block';
+                passwordError.style.display = 'none';
+                
+                // Load admin quote list
+                loadAdminQuoteList();
+                
+                // Enable delete buttons in user quotes
+                document.querySelectorAll('.admin-controls').forEach(control => {
+                    control.style.display = 'block';
+                });
+                
+                showNotification('Login admin berhasil!', 'success');
+            } else {
+                passwordError.style.display = 'block';
+                showNotification('Password salah!', 'error');
+            }
+        }
+
+        function loadAdminQuoteList() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const container = document.getElementById('adminQuoteList');
+            
+            if (userQuotes.length === 0) {
+                container.innerHTML = '<p style="color: var(--gray); text-align: center;">Belum ada kutipan dari pengunjung.</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            userQuotes.forEach((quote, index) => {
+                const quoteItem = document.createElement('div');
+                quoteItem.style.cssText = 'padding: 15px; border-bottom: 1px solid #eee;';
+                quoteItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <strong style="color: var(--accent);">${quote.author}</strong>
+                            <p style="margin: 5px 0; color: var(--dark);">"${quote.text}"</p>
+                            <small style="color: var(--gray);">${formatDate(quote.date)}</small>
+                        </div>
+                        <button onclick="deleteUserQuote(${quote.id}); loadAdminQuoteList();" 
+                                style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(quoteItem);
+            });
+        }
+
+        // Helper functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + ' juta';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + ' rb';
+            }
+            return num.toString();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            
+            if (type === 'error') {
+                notification.classList.add('error');
+            } else {
+                notification.classList.remove('error');
+            }
+            
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
