@@ -2927,11 +2927,25 @@ function debounce(func, wait) {
 
 // Initialize Application
 function initApp() {
-    loadBooks();
-    setupEventListeners();
-    updateUI();
-}
-
+   try {
+        loadBooks();
+        setupEventListeners();
+        updateUI();
+        // Hide loading screen after initialization
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('hidden');
+            }
+        }, 500);
+    } catch (error) {
+        console.error('Error during initialization:', error);
+        // Ensure loading screen is hidden even if there's an error
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+        }
+    }
 // Setup Event Listeners
 function setupEventListeners() {
     // ... event listener lainnya
@@ -4273,3 +4287,4 @@ document.addEventListener('DOMContentLoaded', function() {
 // Make SYAFI available globally
 window.SYAFI = SYAFI;
 </script>>
+
