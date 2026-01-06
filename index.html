@@ -275,15 +275,6 @@
             font-size: 1.1rem;
         }
         
-        .quote-category {
-            background: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
         .quote-likes {
             color: var(--gray);
             font-size: 0.9rem;
@@ -680,7 +671,6 @@
             <div>
                 <div class="section-header">
                     <h2 class="section-title">Kutipan Tokoh Dunia</h2>
-                    <div class="quote-category">Inspirasi Global</div>
                 </div>
                 
                 <div class="quote-cards" id="famousQuotesContainer">
@@ -710,21 +700,6 @@
                             <textarea class="form-textarea" id="quoteText" placeholder="Tulis kutipan inspiratif Anda di sini..." required></textarea>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Kategori</label>
-                            <select class="form-select" id="quoteCategory">
-                                <option value="Motivasi">Motivasi</option>
-                                <option value="Inspirasi">Inspirasi</option>
-                                <option value="Kehidupan">Kehidupan</option>
-                                <option value="Kesuksesan">Kesuksesan</option>
-                                <option value="Cinta">Cinta</option>
-                                <option value="Humor">Humor</option>
-                                <option value="Filsafat">Filsafat</option>
-                                <option value="Persahabatan">Persahabatan</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        
                         <button type="submit" class="submit-btn">
                             <i class="fas fa-paper-plane"></i> Bagikan Kutipan
                         </button>
@@ -737,7 +712,6 @@
         <div class="user-quotes-section">
             <div class="section-header">
                 <h2 class="section-title">Kutipan dari Pengunjung</h2>
-                <div class="quote-category">Inspirasi Komunitas</div>
             </div>
             
             <p style="color: var(--gray); margin-bottom: 20px;">
@@ -766,16 +740,6 @@
                     <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
                 </div>
-            </div>
-            
-            <div>
-                <h3 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Kategori Populer</h3>
-                <ul style="list-style: none;">
-                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Motivasi Kerja</a></li>
-                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Inspirasi Harian</a></li>
-                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Kutipan Tokoh</a></li>
-                    <li style="margin-bottom: 10px;"><a href="#" style="color: #aaa; text-decoration: none; transition: color 0.3s;">Kata-kata Cinta</a></li>
-                </ul>
             </div>
             
             <div>
@@ -831,127 +795,106 @@
             { 
                 text: "Jadilah dirimu sendiri; karena orang lain sudah ada.", 
                 author: "Oscar Wilde", 
-                category: "Inspirasi",
                 likes: 177063
             },
             { 
                 text: "Aku egois, tidak sabar, dan sedikit tidak percaya diri. Aku membuat kesalahan, aku di luar kendali, dan terkadang sulit dihadapi. Tapi jika kau tidak bisa menerima diriku di saat terburukku, maka kau jelas tidak pantas mendapatkan diriku di saat terbaikku.", 
                 author: "Marilyn Monroe", 
-                category: "Kehidupan",
                 likes: 165217
             },
             { 
                 text: "Begitu banyak buku, begitu sedikit waktu.", 
                 author: "Frank Zappa", 
-                category: "Humor",
                 likes: 151404
             },
             { 
                 text: "Dua hal yang tak terbatas: alam semesta dan kebodohan manusia; dan saya tidak yakin tentang alam semesta.", 
                 author: "Albert Einstein", 
-                category: "Filsafat",
                 likes: 148390
             },
             { 
                 text: "Ruangan tanpa buku bagaikan tubuh tanpa jiwa.", 
                 author: "Marcus Tullius Cicero", 
-                category: "Inspirasi",
                 likes: 135508
             },
             { 
                 text: "Jadilah dirimu sendiri dan katakan apa yang kamu rasakan, karena mereka yang peduli tidak penting, dan mereka yang penting tidak peduli.", 
                 author: "Bernard M. Baruch", 
-                category: "Motivasi",
                 likes: 130143
             },
             { 
                 text: "Kau harus menari seolah tak ada yang melihat, mencintai seolah tak akan pernah terluka, bernyanyi seolah tak ada yang mendengarkan, dan hidup seolah surga di bumi.", 
                 author: "William W. Purkey", 
-                category: "Inspirasi",
                 likes: 128900
             },
             { 
                 text: "Kau tahu kau sedang jatuh cinta ketika kau tak bisa tidur karena kenyataan akhirnya lebih baik daripada mimpimu.", 
                 author: "Dr. Seuss", 
-                category: "Cinta",
                 likes: 127107
             },
             { 
                 text: "Hidup hanya sekali, tetapi jika dijalani dengan benar, sekali saja sudah cukup.", 
                 author: "Mae West", 
-                category: "Kehidupan",
                 likes: 119058
             },
             { 
                 text: "Jadilah perubahan yang ingin kamu lihat di dunia.", 
                 author: "Mahatma Gandhi", 
-                category: "Inspirasi",
                 likes: 114360
             },
             { 
                 text: "Dalam tiga kata, saya dapat merangkum semua yang telah saya pelajari tentang kehidupan: kehidupan terus berlanjut.", 
                 author: "Robert Frost", 
-                category: "Kehidupan",
                 likes: 109284
             },
             { 
                 text: "Jika kau ingin tahu seperti apa kepribadian seseorang, perhatikan baik-baik bagaimana ia memperlakukan orang-orang yang lebih rendah kedudukannya, bukan orang-orang yang setara dengannya.", 
                 author: "JK Rowling", 
-                category: "Kehidupan",
                 likes: 101564
             },
             { 
                 text: "Jangan berjalan di depanku... aku mungkin tidak akan mengikutimu. Jangan berjalan di belakangku... aku mungkin tidak akan memimpin. Berjalanlah di sampingku... jadilah temanku saja.", 
                 author: "Albert Camus", 
-                category: "Persahabatan",
                 likes: 93522
             },
             { 
                 text: "Jika kamu mengatakan yang sebenarnya, kamu tidak perlu mengingat apa pun.", 
                 author: "Mark Twain", 
-                category: "Kehidupan",
                 likes: 92183
             },
             { 
                 text: "Aku telah belajar bahwa orang akan melupakan apa yang kau katakan, orang akan melupakan apa yang kau lakukan, tetapi orang tidak akan pernah melupakan bagaimana kau membuat mereka merasa.", 
                 author: "Maya Angelou", 
-                category: "Kehidupan",
                 likes: 89095
             },
             { 
                 text: "Persahabatan... lahir pada saat seseorang berkata kepada orang lain, 'Apa! Kamu juga? Kukira tidak ada orang lain selain aku...'", 
                 author: "C.S. Lewis", 
-                category: "Persahabatan",
                 likes: 88101
             },
             { 
                 text: "Hidup adalah hal yang paling langka di dunia. Kebanyakan orang hanya sekadar ada, itu saja.", 
                 author: "Oscar Wilde", 
-                category: "Filsafat",
                 likes: 84856
             },
             { 
                 text: "Seorang teman adalah seseorang yang mengetahui segala hal tentangmu dan tetap mencintaimu.", 
                 author: "Elbert Hubbard", 
-                category: "Persahabatan",
                 likes: 84286
             },
             { 
                 text: "Selalu maafkan musuhmu; tidak ada yang lebih membuat mereka kesal selain itu.", 
                 author: "Oscar Wilde", 
-                category: "Filsafat",
                 likes: 81812
             },
             { 
                 text: "Kegelapan tidak dapat mengusir kegelapan: hanya cahaya yang dapat melakukannya. Kebencian tidak dapat mengusir kebencian: hanya cinta yang dapat melakukannya.", 
                 author: "Martin Luther King Jr.", 
-                category: "Inspirasi",
                 likes: 78308
             },
             { 
                 text: "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya.", 
                 author: "Mahatma Gandhi", 
-                category: "Inspirasi",
                 likes: 75000
             },
             
@@ -959,19 +902,16 @@
             { 
                 text: "Hidup adalah tentang membuat dampak, bukan hanya mencari nafkah.", 
                 author: "Kevin Kruse", 
-                category: "Motivasi",
                 likes: 68000
             },
             { 
                 text: "Apapun yang dapat kamu bayangkan, itu nyata.", 
                 author: "Pablo Picasso", 
-                category: "Inspirasi",
                 likes: 72000
             },
             { 
                 text: "Sukses bukanlah akhir, kegagalan bukanlah fatal: yang terpenting adalah keberanian untuk melanjutkan.", 
                 author: "Winston Churchill", 
-                category: "Kesuksesan",
                 likes: 81000
             }
         ];
@@ -1015,11 +955,258 @@
                         id: Date.now(),
                         author: "Rina",
                         text: "Jangan pernah berhenti bermimpi, karena mimpi adalah bahan bakar kehidupan.",
-                        category: "Inspirasi",
                         date: new Date().toISOString()
                     },
                     {
                         id: Date.now() + 1,
                         author: "Andi",
                         text: "Kesuksesan dimulai dari langkah pertama yang berani.",
-                        category: "Mot
+                        date: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('syafiUserQuotes', JSON.stringify(sampleQuotes));
+                loadUserQuotes();
+                updateStats();
+            }
+        });
+
+        // Display famous quotes
+        function displayFamousQuotes() {
+            const container = document.getElementById('famousQuotesContainer');
+            container.innerHTML = '';
+            
+            famousQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'quote-card fade-in';
+                quoteCard.innerHTML = `
+                    <p class="quote-text">"${quote.text}"</p>
+                    <div class="quote-footer">
+                        <div class="quote-author">${quote.author}</div>
+                    </div>
+                    <div class="quote-likes">
+                        <i class="fas fa-heart" style="color: #f72585;"></i>
+                        <span>${formatNumber(quote.likes)} suka</span>
+                    </div>
+                `;
+                container.appendChild(quoteCard);
+            });
+            
+            // Update famous quotes count
+            document.getElementById('totalFamousQuotes').textContent = famousQuotes.length;
+        }
+
+        // Load user quotes
+        function loadUserQuotes() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const container = document.getElementById('userQuotesContainer');
+            
+            if (userQuotes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray);">
+                        <i class="fas fa-comment-alt" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h3 style="margin-bottom: 10px;">Belum ada kutipan dari pengunjung</h3>
+                        <p>Jadilah yang pertama membagikan kata-kata inspiratif Anda!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            // Sort by newest first
+            userQuotes.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            userQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'user-quote-card fade-in';
+                quoteCard.innerHTML = `
+                    <div class="user-quote-header">
+                        <div class="user-quote-author">${quote.author}</div>
+                        <div class="user-quote-date">${formatDate(quote.date)}</div>
+                    </div>
+                    <p class="user-quote-text">"${quote.text}"</p>
+                    <div class="admin-controls" data-quote-id="${quote.id}">
+                        <button class="delete-btn" onclick="deleteUserQuote(${quote.id})">
+                            <i class="fas fa-trash"></i> Hapus Kutipan
+                        </button>
+                    </div>
+                `;
+                container.appendChild(quoteCard);
+            });
+            
+            // Update user quotes count
+            document.getElementById('totalUserQuotes').textContent = userQuotes.length;
+            
+            // Show admin controls if logged in
+            if (isAdminLoggedIn) {
+                document.querySelectorAll('.admin-controls').forEach(control => {
+                    control.style.display = 'block';
+                });
+            }
+        }
+
+        // Add user quote
+        function addUserQuote(event) {
+            event.preventDefault();
+            
+            const author = document.getElementById('authorName').value.trim();
+            const text = document.getElementById('quoteText').value.trim();
+            
+            if (!author || !text) {
+                showNotification('Harap isi semua kolom!', 'error');
+                return;
+            }
+            
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const newQuote = {
+                id: Date.now(),
+                author,
+                text,
+                date: new Date().toISOString()
+            };
+            
+            userQuotes.push(newQuote);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
+            
+            // Reset form
+            document.getElementById('addQuoteForm').reset();
+            
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
+            
+            // Show success notification
+            showNotification('Kutipan Anda berhasil ditambahkan!', 'success');
+        }
+
+        // Delete user quote (admin only)
+        function deleteUserQuote(quoteId) {
+            if (!isAdminLoggedIn) {
+                showNotification('Hanya admin yang dapat menghapus kutipan.', 'error');
+                return;
+            }
+            
+            if (!confirm('Apakah Anda yakin ingin menghapus kutipan ini?')) {
+                return;
+            }
+            
+            let userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            userQuotes = userQuotes.filter(quote => quote.id !== quoteId);
+            localStorage.setItem('syafiUserQuotes', JSON.stringify(userQuotes));
+            
+            // Reload quotes and update stats
+            loadUserQuotes();
+            updateStats();
+            
+            // Show notification
+            showNotification('Kutipan berhasil dihapus!', 'success');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            document.getElementById('totalUserQuotes').textContent = userQuotes.length;
+        }
+
+        // Admin functions
+        function openAdminModal() {
+            adminModal.style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            adminModal.style.display = 'none';
+            adminPasswordInput.value = '';
+            passwordError.style.display = 'none';
+        }
+
+        function loginAdmin() {
+            const password = adminPasswordInput.value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                adminPanel.style.display = 'block';
+                passwordError.style.display = 'none';
+                
+                // Load admin quote list
+                loadAdminQuoteList();
+                
+                // Enable delete buttons in user quotes
+                document.querySelectorAll('.admin-controls').forEach(control => {
+                    control.style.display = 'block';
+                });
+                
+                showNotification('Login admin berhasil!', 'success');
+            } else {
+                passwordError.style.display = 'block';
+                showNotification('Password salah!', 'error');
+            }
+        }
+
+        function loadAdminQuoteList() {
+            const userQuotes = JSON.parse(localStorage.getItem('syafiUserQuotes')) || [];
+            const container = document.getElementById('adminQuoteList');
+            
+            if (userQuotes.length === 0) {
+                container.innerHTML = '<p style="color: var(--gray); text-align: center;">Belum ada kutipan dari pengunjung.</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            userQuotes.forEach((quote, index) => {
+                const quoteItem = document.createElement('div');
+                quoteItem.style.cssText = 'padding: 15px; border-bottom: 1px solid #eee;';
+                quoteItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <strong style="color: var(--accent);">${quote.author}</strong>
+                            <p style="margin: 5px 0; color: var(--dark);">"${quote.text}"</p>
+                            <small style="color: var(--gray);">${formatDate(quote.date)}</small>
+                        </div>
+                        <button onclick="deleteUserQuote(${quote.id}); loadAdminQuoteList();" 
+                                style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(quoteItem);
+            });
+        }
+
+        // Helper functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + ' juta';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + ' rb';
+            }
+            return num.toString();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            
+            if (type === 'error') {
+                notification.classList.add('error');
+            } else {
+                notification.classList.remove('error');
+            }
+            
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
