@@ -1,267 +1,335 @@
-import React, { useState } from 'react';
-import { Book, Search, BookOpen, Home, Library, User, Moon, Sun, ChevronLeft, ChevronRight, Bookmark, Settings, X, Download, Share2, LogOut, Plus, Edit, Trash2, Upload, Eye, EyeOff } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYAFI Reader - System for Your Advanced Free Information</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.development.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #374151;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Loading animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div id="root" class="min-h-screen"></div>
 
-const SyafiReader = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [readingPage, setReadingPage] = useState(1);
-  const [darkMode, setDarkMode] = useState(false);
-  const [fontSize, setFontSize] = useState(16);
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  // Admin State
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [loginUsername, setLoginUsername] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState('');
-  
-  // Admin credentials
-  const ADMIN_USERNAME = 'admin';
-  const ADMIN_PASSWORD = 'syafi2026';
-  
-  // Books State
-  const [books, setBooks] = useState([
-    {
-      id: 1,
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      year: 1960,
-      genre: "Classic Fiction",
-      rating: 4.8,
-      cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=450&fit=crop",
-      description: "A gripping tale of racial injustice and childhood innocence in the American South.",
-      totalPages: 324,
-      content: [
-        "When he was nearly thirteen, my brother Jem got his arm badly broken at the elbow. When it healed, and Jem's fears of never being able to play football were assuaged, he was seldom self-conscious about his injury.",
-        "Maycomb was an old town, but it was a tired old town when I first knew it. In rainy weather the streets turned to red slop; grass grew on the sidewalks, the courthouse sagged in the square.",
-        "The Radley Place fascinated Dill. In spite of our warnings and explanations it drew him as the moon draws water, but drew him no nearer than the light-pole on the corner..."
-      ]
-    },
-    {
-      id: 2,
-      title: "1984",
-      author: "George Orwell",
-      year: 1949,
-      genre: "Dystopian Fiction",
-      rating: 4.7,
-      cover: "https://images.unsplash.com/photo-1495640452863-552b17d4c78b?w=300&h=450&fit=crop",
-      description: "A haunting vision of a totalitarian future where Big Brother watches everything.",
-      totalPages: 328,
-      content: [
-        "It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort from the vile wind, slipped quickly through the glass doors of Victory Mansions.",
-        "BIG BROTHER IS WATCHING YOU, the caption said, while the dark eyes looked deep into Winston's own. Down at street level another poster, torn at one corner, flapped fitfully in the wind.",
-        "Winston kept his back turned to the telescreen. It was safer; though, as he well knew, even a back can be revealing..."
-      ]
-    },
-    {
-      id: 3,
-      title: "Pride and Prejudice",
-      author: "Jane Austen",
-      year: 1813,
-      genre: "Romance",
-      rating: 4.6,
-      cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
-      description: "A timeless story of love, misunderstanding, and social class in Regency England.",
-      totalPages: 432,
-      content: [
-        "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
-        "However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families.",
-        "My dear Mr. Bennet, said his lady to him one day, have you heard that Netherfield Park is let at last?"
-      ]
-    },
-    {
-      id: 4,
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      year: 1925,
-      genre: "Classic Fiction",
-      rating: 4.5,
-      cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=450&fit=crop",
-      description: "A tragic story of wealth, love, and the American Dream in the Jazz Age.",
-      totalPages: 180,
-      content: [
-        "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. Whenever you feel like criticizing anyone, he told me, just remember that all the people in this world haven't had the advantages that you've had.",
-        "I was privy to the secret griefs of wild, unknown men. Most of the confidences were unsought.",
-        "And so it happened that on a warm windy evening I drove over to East Egg to see two old friends whom I scarcely knew at all..."
-      ]
-    },
-    {
-      id: 5,
-      title: "One Hundred Years of Solitude",
-      author: "Gabriel García Márquez",
-      year: 1967,
-      genre: "Magical Realism",
-      rating: 4.7,
-      cover: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
-      description: "An epic tale of the Buendía family spanning generations in the fictional town of Macondo.",
-      totalPages: 417,
-      content: [
-        "Many years later, as he faced the firing squad, Colonel Aureliano Buendía was to remember that distant afternoon when his father took him to discover ice.",
-        "At that time Macondo was a village of twenty adobe houses, built on the bank of a river of clear water that ran along a bed of polished stones.",
-        "The world was so recent that many things lacked names, and in order to indicate them it was necessary to point..."
-      ]
-    },
-    {
-      id: 6,
-      title: "The Catcher in the Rye",
-      author: "J.D. Salinger",
-      year: 1951,
-      genre: "Coming-of-age Fiction",
-      rating: 4.4,
-      cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=450&fit=crop",
-      description: "A controversial tale of teenage rebellion and alienation in 1950s New York.",
-      totalPages: 277,
-      content: [
-        "If you really want to hear about it, the first thing you'll probably want to know is where I was born, and what my lousy childhood was like, and how my parents were occupied and all before they had me, and all that David Copperfield kind of crap, but I don't feel like going into it, if you want to know the truth.",
-        "In the first place, that stuff bores me, and in the second place, my parents would have about two hemorrhages apiece if I told anything pretty personal about them.",
-        "They're quite touchy about anything like that, especially my father. They're nice and all but they're also touchy as hell..."
-      ]
-    },
-    {
-      id: 7,
-      title: "Crime and Punishment",
-      author: "Fyodor Dostoevsky",
-      year: 1866,
-      genre: "Philosophical Fiction",
-      rating: 4.8,
-      cover: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=300&h=450&fit=crop",
-      description: "A psychological thriller exploring morality, guilt, and redemption in St. Petersburg.",
-      totalPages: 671,
-      content: [
-        "On an exceptionally hot evening early in July a young man came out of the garret in which he lodged in S. Place and walked slowly, as though in hesitation, towards K. bridge.",
-        "He had successfully avoided meeting his landlady on the staircase. His garret was under the roof of a high, five-storied house and was more like a cupboard than a room.",
-        "The landlady who provided him with garret, dinners, and attendance, lived on the floor below, and every time he went out he was obliged to pass her kitchen, the door of which invariably stood open..."
-      ]
-    },
-    {
-      id: 8,
-      title: "The Lord of the Rings",
-      author: "J.R.R. Tolkien",
-      year: 1954,
-      genre: "Fantasy",
-      rating: 4.9,
-      cover: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=300&h=450&fit=crop",
-      description: "An epic fantasy adventure through Middle-earth to destroy the One Ring.",
-      totalPages: 1178,
-      content: [
-        "When Mr. Bilbo Baggins of Bag End announced that he would shortly be celebrating his eleventy-first birthday with a party of special magnificence, there was much talk and excitement in Hobbiton.",
-        "Bilbo was very rich and very peculiar, and had been the wonder of the Shire for sixty years, ever since his remarkable disappearance and unexpected return.",
-        "The riches he had brought back from his travels had now become a local legend, and it was popularly believed, whatever the old folk might say, that the Hill at Bag End was full of tunnels stuffed with treasure..."
-      ]
-    },
-    {
-      id: 9,
-      title: "Moby-Dick",
-      author: "Herman Melville",
-      year: 1851,
-      genre: "Adventure",
-      rating: 4.3,
-      cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=300&h=450&fit=crop",
-      description: "The epic tale of Captain Ahab's obsessive quest for the white whale.",
-      totalPages: 635,
-      content: [
-        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
-        "It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul.",
-        "Whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet..."
-      ]
-    },
-    {
-      id: 10,
-      title: "War and Peace",
-      author: "Leo Tolstoy",
-      year: 1869,
-      genre: "Historical Fiction",
-      rating: 4.6,
-      cover: "https://images.unsplash.com/photo-1485988412941-77a35537dae4?w=300&h=450&fit=crop",
-      description: "A sweeping narrative of Russian society during the Napoleonic Wars.",
-      totalPages: 1225,
-      content: [
-        "Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist—I really believe he is Antichrist—I will have nothing more to do with you and you are no longer my friend.",
-        "So spoke in July 1805 the well-known Anna Pávlovna Schérer, maid of honor and favorite of the Empress Márya Fëdorovna.",
-        "Well, and you too, dear prince, she continued, turning to a newcomer..."
-      ]
-    }
-  ]);
+    <script type="text/babel">
+        // Extracting Lucide icons from the global object
+        const {
+            Book, Search, BookOpen, Home, Library, User, Moon, Sun,
+            ChevronLeft, ChevronRight, Bookmark, Settings, X, Download,
+            Share2, LogOut, Plus, Edit, Trash2, Upload, Eye, EyeOff
+        } = lucideReact;
 
-  // Edit Book State
-  const [editingBook, setEditingBook] = useState(null);
-  const [showAddBook, setShowAddBook] = useState(false);
-  const [newBook, setNewBook] = useState({
-    title: '',
-    author: '',
-    year: '',
-    genre: '',
-    rating: '',
-    cover: '',
-    description: '',
-    totalPages: '',
-    content: ['']
-  });
+        const SyafiReader = () => {
+            const [currentPage, setCurrentPage] = React.useState('home');
+            const [selectedBook, setSelectedBook] = React.useState(null);
+            const [readingPage, setReadingPage] = React.useState(1);
+            const [darkMode, setDarkMode] = React.useState(false);
+            const [fontSize, setFontSize] = React.useState(16);
+            const [searchQuery, setSearchQuery] = React.useState('');
+            
+            // Admin State
+            const [isAdmin, setIsAdmin] = React.useState(false);
+            const [showLogin, setShowLogin] = React.useState(false);
+            const [loginUsername, setLoginUsername] = React.useState('');
+            const [loginPassword, setLoginPassword] = React.useState('');
+            const [showPassword, setShowPassword] = React.useState(false);
+            const [loginError, setLoginError] = React.useState('');
+            
+            // Admin credentials
+            const ADMIN_USERNAME = 'admin';
+            const ADMIN_PASSWORD = 'syafi2026';
+            
+            // Books State
+            const [books, setBooks] = React.useState([
+                {
+                    id: 1,
+                    title: "To Kill a Mockingbird",
+                    author: "Harper Lee",
+                    year: 1960,
+                    genre: "Classic Fiction",
+                    rating: 4.8,
+                    cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=450&fit=crop",
+                    description: "A gripping tale of racial injustice and childhood innocence in the American South.",
+                    totalPages: 324,
+                    content: [
+                        "When he was nearly thirteen, my brother Jem got his arm badly broken at the elbow. When it healed, and Jem's fears of never being able to play football were assuaged, he was seldom self-conscious about his injury.",
+                        "Maycomb was an old town, but it was a tired old town when I first knew it. In rainy weather the streets turned to red slop; grass grew on the sidewalks, the courthouse sagged in the square.",
+                        "The Radley Place fascinated Dill. In spite of our warnings and explanations it drew him as the moon draws water, but drew him no nearer than the light-pole on the corner..."
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "1984",
+                    author: "George Orwell",
+                    year: 1949,
+                    genre: "Dystopian Fiction",
+                    rating: 4.7,
+                    cover: "https://images.unsplash.com/photo-1495640452863-552b17d4c78b?w=300&h=450&fit=crop",
+                    description: "A haunting vision of a totalitarian future where Big Brother watches everything.",
+                    totalPages: 328,
+                    content: [
+                        "It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort from the vile wind, slipped quickly through the glass doors of Victory Mansions.",
+                        "BIG BROTHER IS WATCHING YOU, the caption said, while the dark eyes looked deep into Winston's own. Down at street level another poster, torn at one corner, flapped fitfully in the wind.",
+                        "Winston kept his back turned to the telescreen. It was safer; though, as he well knew, even a back can be revealing..."
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Pride and Prejudice",
+                    author: "Jane Austen",
+                    year: 1813,
+                    genre: "Romance",
+                    rating: 4.6,
+                    cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
+                    description: "A timeless story of love, misunderstanding, and social class in Regency England.",
+                    totalPages: 432,
+                    content: [
+                        "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+                        "However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families.",
+                        "My dear Mr. Bennet, said his lady to him one day, have you heard that Netherfield Park is let at last?"
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "The Great Gatsby",
+                    author: "F. Scott Fitzgerald",
+                    year: 1925,
+                    genre: "Classic Fiction",
+                    rating: 4.5,
+                    cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=450&fit=crop",
+                    description: "A tragic story of wealth, love, and the American Dream in the Jazz Age.",
+                    totalPages: 180,
+                    content: [
+                        "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. Whenever you feel like criticizing anyone, he told me, just remember that all the people in this world haven't had the advantages that you've had.",
+                        "I was privy to the secret griefs of wild, unknown men. Most of the confidences were unsought.",
+                        "And so it happened that on a warm windy evening I drove over to East Egg to see two old friends whom I scarcely knew at all..."
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "One Hundred Years of Solitude",
+                    author: "Gabriel García Márquez",
+                    year: 1967,
+                    genre: "Magical Realism",
+                    rating: 4.7,
+                    cover: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
+                    description: "An epic tale of the Buendía family spanning generations in the fictional town of Macondo.",
+                    totalPages: 417,
+                    content: [
+                        "Many years later, as he faced the firing squad, Colonel Aureliano Buendía was to remember that distant afternoon when his father took him to discover ice.",
+                        "At that time Macondo was a village of twenty adobe houses, built on the bank of a river of clear water that ran along a bed of polished stones.",
+                        "The world was so recent that many things lacked names, and in order to indicate them it was necessary to point..."
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "The Catcher in the Rye",
+                    author: "J.D. Salinger",
+                    year: 1951,
+                    genre: "Coming-of-age Fiction",
+                    rating: 4.4,
+                    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=450&fit=crop",
+                    description: "A controversial tale of teenage rebellion and alienation in 1950s New York.",
+                    totalPages: 277,
+                    content: [
+                        "If you really want to hear about it, the first thing you'll probably want to know is where I was born, and what my lousy childhood was like, and how my parents were occupied and all before they had me, and all that David Copperfield kind of crap, but I don't feel like going into it, if you want to know the truth.",
+                        "In the first place, that stuff bores me, and in the second place, my parents would have about two hemorrhages apiece if I told anything pretty personal about them.",
+                        "They're quite touchy about anything like that, especially my father. They're nice and all but they're also touchy as hell..."
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "Crime and Punishment",
+                    author: "Fyodor Dostoevsky",
+                    year: 1866,
+                    genre: "Philosophical Fiction",
+                    rating: 4.8,
+                    cover: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=300&h=450&fit=crop",
+                    description: "A psychological thriller exploring morality, guilt, and redemption in St. Petersburg.",
+                    totalPages: 671,
+                    content: [
+                        "On an exceptionally hot evening early in July a young man came out of the garret in which he lodged in S. Place and walked slowly, as though in hesitation, towards K. bridge.",
+                        "He had successfully avoided meeting his landlady on the staircase. His garret was under the roof of a high, five-storied house and was more like a cupboard than a room.",
+                        "The landlady who provided him with garret, dinners, and attendance, lived on the floor below, and every time he went out he was obliged to pass her kitchen, the door of which invariably stood open..."
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "The Lord of the Rings",
+                    author: "J.R.R. Tolkien",
+                    year: 1954,
+                    genre: "Fantasy",
+                    rating: 4.9,
+                    cover: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=300&h=450&fit=crop",
+                    description: "An epic fantasy adventure through Middle-earth to destroy the One Ring.",
+                    totalPages: 1178,
+                    content: [
+                        "When Mr. Bilbo Baggins of Bag End announced that he would shortly be celebrating his eleventy-first birthday with a party of special magnificence, there was much talk and excitement in Hobbiton.",
+                        "Bilbo was very rich and very peculiar, and had been the wonder of the Shire for sixty years, ever since his remarkable disappearance and unexpected return.",
+                        "The riches he had brought back from his travels had now become a local legend, and it was popularly believed, whatever the old folk might say, that the Hill at Bag End was full of tunnels stuffed with treasure..."
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "Moby-Dick",
+                    author: "Herman Melville",
+                    year: 1851,
+                    genre: "Adventure",
+                    rating: 4.3,
+                    cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=300&h=450&fit=crop",
+                    description: "The epic tale of Captain Ahab's obsessive quest for the white whale.",
+                    totalPages: 635,
+                    content: [
+                        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+                        "It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul.",
+                        "Whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet..."
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "War and Peace",
+                    author: "Leo Tolstoy",
+                    year: 1869,
+                    genre: "Historical Fiction",
+                    rating: 4.6,
+                    cover: "https://images.unsplash.com/photo-1485988412941-77a35537dae4?w=300&h=450&fit=crop",
+                    description: "A sweeping narrative of Russian society during the Napoleonic Wars.",
+                    totalPages: 1225,
+                    content: [
+                        "Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist—I really believe he is Antichrist—I will have nothing more to do with you and you are no longer my friend.",
+                        "So spoke in July 1805 the well-known Anna Pávlovna Schérer, maid of honor and favorite of the Empress Márya Fëdorovna.",
+                        "Well, and you too, dear prince, she continued, turning to a newcomer..."
+                    ]
+                }
+            ]);
 
-  const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    book.genre.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+            // Edit Book State
+            const [editingBook, setEditingBook] = React.useState(null);
+            const [showAddBook, setShowAddBook] = React.useState(false);
+            const [newBook, setNewBook] = React.useState({
+                title: '',
+                author: '',
+                year: '',
+                genre: '',
+                rating: '',
+                cover: '',
+                description: '',
+                totalPages: '',
+                content: ['']
+            });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (loginUsername === ADMIN_USERNAME && loginPassword === ADMIN_PASSWORD) {
-      setIsAdmin(true);
-      setShowLogin(false);
-      setLoginError('');
-      setLoginUsername('');
-      setLoginPassword('');
-      setCurrentPage('admin');
-    } else {
-      setLoginError('Username atau password salah!');
-    }
-  };
+            const filteredBooks = books.filter(book =>
+                book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                book.genre.toLowerCase().includes(searchQuery.toLowerCase())
+            );
 
-  const handleLogout = () => {
-    setIsAdmin(false);
-    setCurrentPage('home');
-  };
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (loginUsername === ADMIN_USERNAME && loginPassword === ADMIN_PASSWORD) {
+                    setIsAdmin(true);
+                    setShowLogin(false);
+                    setLoginError('');
+                    setLoginUsername('');
+                    setLoginPassword('');
+                    setCurrentPage('admin');
+                } else {
+                    setLoginError('Username atau password salah!');
+                }
+            };
 
-  const handleDeleteBook = (id) => {
-    if (window.confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
-      setBooks(books.filter(book => book.id !== id));
-    }
-  };
+            const handleLogout = () => {
+                setIsAdmin(false);
+                setCurrentPage('home');
+            };
 
-  const handleAddBook = () => {
-    const id = Math.max(...books.map(b => b.id), 0) + 1;
-    setBooks([...books, { 
-      ...newBook, 
-      id, 
-      rating: parseFloat(newBook.rating), 
-      year: parseInt(newBook.year), 
-      totalPages: parseInt(newBook.totalPages),
-      content: newBook.content.filter(p => p.trim() !== '')
-    }]);
-    setShowAddBook(false);
-    setNewBook({
-      title: '',
-      author: '',
-      year: '',
-      genre: '',
-      rating: '',
-      cover: '',
-      description: '',
-      totalPages: '',
-      content: ['']
-    });
-  };
+            const handleDeleteBook = (id) => {
+                if (window.confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
+                    setBooks(books.filter(book => book.id !== id));
+                }
+            };
 
-  const handleUpdateBook = () => {
-    setBooks(books.map(book => book.id === editingBook.id ? editingBook : book));
-    setEditingBook(null);
-  };
+            const handleAddBook = () => {
+                const id = Math.max(...books.map(b => b.id), 0) + 1;
+                setBooks([...books, { 
+                    ...newBook, 
+                    id, 
+                    rating: parseFloat(newBook.rating), 
+                    year: parseInt(newBook.year), 
+                    totalPages: parseInt(newBook.totalPages),
+                    content: newBook.content.filter(p => p.trim() !== '')
+                }]);
+                setShowAddBook(false);
+                setNewBook({
+                    title: '',
+                    author: '',
+                    year: '',
+                    genre: '',
+                    rating: '',
+                    cover: '',
+                    description: '',
+                    totalPages: '',
+                    content: ['']
+                });
+            };
 
-  const downloadBook = (book) => {
-    const content = `
+            const handleUpdateBook = () => {
+                setBooks(books.map(book => book.id === editingBook.id ? editingBook : book));
+                setEditingBook(null);
+            };
+
+            const downloadBook = (book) => {
+                const content = `
 ${book.title}
 Oleh: ${book.author}
 Tahun: ${book.year}
@@ -280,661 +348,683 @@ ${paragraph}
 =====================================
 Downloaded from SYAFI - System for Your Advanced Free Information
 © 2026 SYAFI
-    `;
+                `;
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${book.title} - ${book.author}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${book.title} - ${book.author}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
 
-  const shareBook = (book) => {
-    if (navigator.share) {
-      navigator.share({
-        title: book.title,
-        text: `Baca "${book.title}" oleh ${book.author} di SYAFI`,
-        url: window.location.href
-      });
-    } else {
-      alert('Fitur berbagi tidak didukung di browser ini');
-    }
-  };
+            const shareBook = (book) => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: book.title,
+                        text: `Baca "${book.title}" oleh ${book.author} di SYAFI`,
+                        url: window.location.href
+                    });
+                } else {
+                    alert('Fitur berbagi tidak didukung di browser ini');
+                }
+            };
 
-  // Login Modal
-  const renderLogin = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4`}>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Admin Login</h2>
-          <button onClick={() => setShowLogin(false)} className="text-gray-500 hover:text-gray-700">
-            <X size={24} />
-          </button>
-        </div>
-        
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold mb-2">Username</label>
-            <input
-              type="text"
-              value={loginUsername}
-              onChange={(e) => setLoginUsername(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
-              placeholder="Masukkan username"
-              required
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-semibold mb-2">Password</label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                className={`w-full px-4 py-3 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
-                placeholder="Masukkan password"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-500"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-          </div>
+            // Login Modal
+            const renderLogin = () => (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn">
+                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4`}>
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-bold">Admin Login</h2>
+                            <button onClick={() => setShowLogin(false)} className="text-gray-500 hover:text-gray-700">
+                                <X size={24} />
+                            </button>
+                        </div>
+                        
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-semibold mb-2">Username</label>
+                                <input
+                                    type="text"
+                                    value={loginUsername}
+                                    onChange={(e) => setLoginUsername(e.target.value)}
+                                    className={`w-full px-4 py-3 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
+                                    placeholder="Masukkan username"
+                                    required
+                                />
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-semibold mb-2">Password</label>
+                                <div className="relative">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        value={loginPassword}
+                                        onChange={(e) => setLoginPassword(e.target.value)}
+                                        className={`w-full px-4 py-3 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
+                                        placeholder="Masukkan password"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-3 text-gray-500"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+                            </div>
 
-          {loginError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {loginError}
-            </div>
-          )}
+                            {loginError && (
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                                    {loginError}
+                                </div>
+                            )}
 
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700"
-          >
-            Login
-          </button>
-        </form>
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all"
+                            >
+                                Login
+                            </button>
+                        </form>
 
-        <div className={`mt-4 p-3 ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg text-sm`}>
-          <p className="font-semibold mb-1">Demo Credentials:</p>
-          <p>Username: <code className="bg-gray-800 text-green-400 px-2 py-1 rounded">admin</code></p>
-          <p>Password: <code className="bg-gray-800 text-green-400 px-2 py-1 rounded">syafi2026</code></p>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Admin Panel
-  const renderAdmin = () => (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">Admin Panel - Kelola Buku</h2>
-        <div className="flex gap-4">
-          <button
-            onClick={() => setCurrentPage('home')}
-            className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 flex items-center gap-2"
-          >
-            <Home size={20} />
-            Kembali
-          </button>
-          <button
-            onClick={() => setShowAddBook(true)}
-            className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center gap-2"
-          >
-            <Plus size={20} />
-            Tambah Buku Baru
-          </button>
-        </div>
-      </div>
-
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className={`${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                <th className="px-4 py-3 text-left">Cover</th>
-                <th className="px-4 py-3 text-left">Judul</th>
-                <th className="px-4 py-3 text-left">Penulis</th>
-                <th className="px-4 py-3 text-left">Genre</th>
-                <th className="px-4 py-3 text-left">Rating</th>
-                <th className="px-4 py-3 text-left">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {books.map((book) => (
-                <tr key={book.id} className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-                  <td className="px-4 py-3">
-                    <img src={book.cover} alt={book.title} className="w-12 h-16 object-cover rounded" />
-                  </td>
-                  <td className="px-4 py-3 font-semibold">{book.title}</td>
-                  <td className="px-4 py-3">{book.author}</td>
-                  <td className="px-4 py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}>
-                      {book.genre}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-1">
-                      <span className="text-yellow-500">★</span>
-                      <span>{book.rating}</span>
+                        <div className={`mt-4 p-3 ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg text-sm`}>
+                            <p className="font-semibold mb-1">Demo Credentials:</p>
+                            <p>Username: <code className="bg-gray-800 text-green-400 px-2 py-1 rounded">admin</code></p>
+                            <p>Password: <code className="bg-gray-800 text-green-400 px-2 py-1 rounded">syafi2026</code></p>
+                        </div>
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setEditingBook({...book})}
-                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteBook(book.id)}
-                        className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-                        title="Hapus"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                </div>
+            );
+
+            // Admin Panel
+            const renderAdmin = () => (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-3xl font-bold">Admin Panel - Kelola Buku</h2>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setCurrentPage('home')}
+                                className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 flex items-center gap-2 transition-all"
+                            >
+                                <Home size={20} />
+                                Kembali
+                            </button>
+                            <button
+                                onClick={() => setShowAddBook(true)}
+                                className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center gap-2 transition-all"
+                            >
+                                <Plus size={20} />
+                                Tambah Buku Baru
+                            </button>
+                        </div>
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
 
-        <div className="mt-6 text-center">
-          <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Total Buku: <strong>{books.length}</strong>
-          </p>
-        </div>
-      </div>
+                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6 animate-fadeIn`}>
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className={`${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                                        <th className="px-4 py-3 text-left">Cover</th>
+                                        <th className="px-4 py-3 text-left">Judul</th>
+                                        <th className="px-4 py-3 text-left">Penulis</th>
+                                        <th className="px-4 py-3 text-left">Genre</th>
+                                        <th className="px-4 py-3 text-left">Rating</th>
+                                        <th className="px-4 py-3 text-left">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {books.map((book) => (
+                                        <tr key={book.id} className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                                            <td className="px-4 py-3">
+                                                <img src={book.cover} alt={book.title} className="w-12 h-16 object-cover rounded" />
+                                            </td>
+                                            <td className="px-4 py-3 font-semibold">{book.title}</td>
+                                            <td className="px-4 py-3">{book.author}</td>
+                                            <td className="px-4 py-3">
+                                                <span className={`px-3 py-1 rounded-full text-xs ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}>
+                                                    {book.genre}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="flex items-center gap-1">
+                                                    <span className="text-yellow-500">★</span>
+                                                    <span>{book.rating}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => setEditingBook({...book})}
+                                                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all"
+                                                        title="Edit"
+                                                    >
+                                                        <Edit size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteBook(book.id)}
+                                                        className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-all"
+                                                        title="Hapus"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
-      {/* Add Book Modal */}
-      {showAddBook && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 my-8`}>
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Tambah Buku Baru</h3>
-              <button onClick={() => setShowAddBook(false)}>
-                <X size={24} />
-              </button>
-            </div>
+                        <div className="mt-6 text-center">
+                            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                Total Buku: <strong>{books.length}</strong>
+                            </p>
+                        </div>
+                    </div>
 
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              <input
-                placeholder="Judul Buku"
-                value={newBook.title}
-                onChange={(e) => setNewBook({...newBook, title: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Penulis"
-                value={newBook.author}
-                onChange={(e) => setNewBook({...newBook, author: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Tahun"
-                type="number"
-                value={newBook.year}
-                onChange={(e) => setNewBook({...newBook, year: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Genre"
-                value={newBook.genre}
-                onChange={(e) => setNewBook({...newBook, genre: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Rating (0-5)"
-                type="number"
-                step="0.1"
-                value={newBook.rating}
-                onChange={(e) => setNewBook({...newBook, rating: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="URL Cover (https://...)"
-                value={newBook.cover}
-                onChange={(e) => setNewBook({...newBook, cover: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Total Halaman"
-                type="number"
-                value={newBook.totalPages}
-                onChange={(e) => setNewBook({...newBook, totalPages: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <textarea
-                placeholder="Deskripsi Buku"
-                value={newBook.description}
-                onChange={(e) => setNewBook({...newBook, description: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-24`}
-              />
-              <textarea
-                placeholder="Konten Buku (pisahkan paragraf dengan enter)"
-                value={newBook.content.join('\n')}
-                onChange={(e) => setNewBook({...newBook, content: e.target.value.split('\n')})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-32`}
-              />
-            </div>
+                    {/* Add Book Modal */}
+                    {showAddBook && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 my-8 animate-fadeIn`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className="text-2xl font-bold">Tambah Buku Baru</h3>
+                                    <button onClick={() => setShowAddBook(false)}>
+                                        <X size={24} />
+                                    </button>
+                                </div>
 
-            <button
-              onClick={handleAddBook}
-              className="w-full mt-6 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600"
-            >
-              Simpan Buku
-            </button>
-          </div>
-        </div>
-      )}
+                                <div className="space-y-4 max-h-96 overflow-y-auto">
+                                    <input
+                                        placeholder="Judul Buku"
+                                        value={newBook.title}
+                                        onChange={(e) => setNewBook({...newBook, title: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Penulis"
+                                        value={newBook.author}
+                                        onChange={(e) => setNewBook({...newBook, author: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Tahun"
+                                        type="number"
+                                        value={newBook.year}
+                                        onChange={(e) => setNewBook({...newBook, year: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Genre"
+                                        value={newBook.genre}
+                                        onChange={(e) => setNewBook({...newBook, genre: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Rating (0-5)"
+                                        type="number"
+                                        step="0.1"
+                                        value={newBook.rating}
+                                        onChange={(e) => setNewBook({...newBook, rating: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="URL Cover (https://...)"
+                                        value={newBook.cover}
+                                        onChange={(e) => setNewBook({...newBook, cover: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Total Halaman"
+                                        type="number"
+                                        value={newBook.totalPages}
+                                        onChange={(e) => setNewBook({...newBook, totalPages: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <textarea
+                                        placeholder="Deskripsi Buku"
+                                        value={newBook.description}
+                                        onChange={(e) => setNewBook({...newBook, description: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-24`}
+                                    />
+                                    <textarea
+                                        placeholder="Konten Buku (pisahkan paragraf dengan enter)"
+                                        value={newBook.content.join('\n')}
+                                        onChange={(e) => setNewBook({...newBook, content: e.target.value.split('\n')})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-32`}
+                                    />
+                                </div>
 
-      {/* Edit Book Modal */}
-      {editingBook && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 my-8`}>
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Edit Buku</h3>
-              <button onClick={() => setEditingBook(null)}>
-                <X size={24} />
-              </button>
-            </div>
+                                <button
+                                    onClick={handleAddBook}
+                                    className="w-full mt-6 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-all"
+                                >
+                                    Simpan Buku
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              <input
-                placeholder="Judul Buku"
-                value={editingBook.title}
-                onChange={(e) => setEditingBook({...editingBook, title: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Penulis"
-                value={editingBook.author}
-                onChange={(e) => setEditingBook({...editingBook, author: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Tahun"
-                type="number"
-                value={editingBook.year}
-                onChange={(e) => setEditingBook({...editingBook, year: parseInt(e.target.value)})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Genre"
-                value={editingBook.genre}
-                onChange={(e) => setEditingBook({...editingBook, genre: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Rating (0-5)"
-                type="number"
-                step="0.1"
-                value={editingBook.rating}
-                onChange={(e) => setEditingBook({...editingBook, rating: parseFloat(e.target.value)})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="URL Cover"
-                value={editingBook.cover}
-                onChange={(e) => setEditingBook({...editingBook, cover: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <input
-                placeholder="Total Halaman"
-                type="number"
-                value={editingBook.totalPages}
-                onChange={(e) => setEditingBook({...editingBook, totalPages: parseInt(e.target.value)})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <textarea
-                placeholder="Deskripsi Buku"
-                value={editingBook.description}
-                onChange={(e) => setEditingBook({...editingBook, description: e.target.value})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-24`}
-              />
-              <textarea
-                placeholder="Konten Buku (pisahkan paragraf dengan enter)"
-                value={editingBook.content.join('\n')}
-                onChange={(e) => setEditingBook({...editingBook, content: e.target.value.split('\n')})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-32`}
-              />
-            </div>
+                    {/* Edit Book Modal */}
+                    {editingBook && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-2xl shadow-2xl max-w-2xl w-full mx-4 my-8 animate-fadeIn`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className="text-2xl font-bold">Edit Buku</h3>
+                                    <button onClick={() => setEditingBook(null)}>
+                                        <X size={24} />
+                                    </button>
+                                </div>
 
-            <button
-              onClick={handleUpdateBook}
-              className="w-full mt-6 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
-            >
-              Update Buku
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+                                <div className="space-y-4 max-h-96 overflow-y-auto">
+                                    <input
+                                        placeholder="Judul Buku"
+                                        value={editingBook.title}
+                                        onChange={(e) => setEditingBook({...editingBook, title: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Penulis"
+                                        value={editingBook.author}
+                                        onChange={(e) => setEditingBook({...editingBook, author: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Tahun"
+                                        type="number"
+                                        value={editingBook.year}
+                                        onChange={(e) => setEditingBook({...editingBook, year: parseInt(e.target.value)})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Genre"
+                                        value={editingBook.genre}
+                                        onChange={(e) => setEditingBook({...editingBook, genre: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Rating (0-5)"
+                                        type="number"
+                                        step="0.1"
+                                        value={editingBook.rating}
+                                        onChange={(e) => setEditingBook({...editingBook, rating: parseFloat(e.target.value)})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="URL Cover"
+                                        value={editingBook.cover}
+                                        onChange={(e) => setEditingBook({...editingBook, cover: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <input
+                                        placeholder="Total Halaman"
+                                        type="number"
+                                        value={editingBook.totalPages}
+                                        onChange={(e) => setEditingBook({...editingBook, totalPages: parseInt(e.target.value)})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <textarea
+                                        placeholder="Deskripsi Buku"
+                                        value={editingBook.description}
+                                        onChange={(e) => setEditingBook({...editingBook, description: e.target.value})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-24`}
+                                    />
+                                    <textarea
+                                        placeholder="Konten Buku (pisahkan paragraf dengan enter)"
+                                        value={editingBook.content.join('\n')}
+                                        onChange={(e) => setEditingBook({...editingBook, content: e.target.value.split('\n')})}
+                                        className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-32`}
+                                    />
+                                </div>
 
-  // Home Page
-  const renderHome = () => (
-    <div>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2">Selamat Datang di SYAFI Reader</h2>
-        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          Sistem untuk membaca dan mengelola buku digital secara gratis
-        </p>
-      </div>
+                                <button
+                                    onClick={handleUpdateBook}
+                                    className="w-full mt-6 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-all"
+                                >
+                                    Update Buku
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredBooks.map((book) => (
-          <div 
-            key={book.id} 
-            className={`rounded-xl overflow-hidden shadow-lg transform transition-transform hover:-translate-y-1 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
-          >
-            <div className="relative">
-              <img 
-                src={book.cover} 
-                alt={book.title}
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded">
-                {book.rating} ★
-              </div>
-            </div>
-            
-            <div className="p-4">
-              <h3 className="font-bold text-lg mb-1">{book.title}</h3>
-              <p className={`text-sm mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                {book.author} • {book.year}
-              </p>
-              <div className="flex items-center justify-between mb-3">
-                <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}>
-                  {book.genre}
-                </span>
-                <span className="text-sm">{book.totalPages} halaman</span>
-              </div>
-              
-              <p className="text-sm mb-4 line-clamp-3">
-                {book.description}
-              </p>
-              
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedBook(book);
-                    setCurrentPage('reader');
-                    setReadingPage(1);
-                  }}
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 flex items-center justify-center gap-2"
-                >
-                  <BookOpen size={16} />
-                  Baca
-                </button>
-                <button
-                  onClick={() => downloadBook(book)}
-                  className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  title="Download"
-                >
-                  <Download size={18} />
-                </button>
-                <button
-                  onClick={() => shareBook(book)}
-                  className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                  title="Share"
-                >
-                  <Share2 size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+            // Home Page
+            const renderHome = () => (
+                <div className="animate-fadeIn">
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold mb-2">Selamat Datang di SYAFI Reader</h2>
+                        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            Sistem untuk membaca dan mengelola buku digital secara gratis
+                        </p>
+                    </div>
 
-  // Reader Page
-  const renderReader = () => {
-    if (!selectedBook) return null;
-    
-    return (
-      <div>
-        <div className="mb-6">
-          <button
-            onClick={() => setCurrentPage('home')}
-            className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-4"
-          >
-            <ChevronLeft size={20} />
-            Kembali ke Beranda
-          </button>
-          
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-2xl font-bold">{selectedBook.title}</h2>
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                {selectedBook.author} • Halaman {readingPage} dari {selectedBook.content.length}
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setFontSize(fontSize - 1)}
-                  disabled={fontSize <= 12}
-                  className="p-2 rounded-lg border disabled:opacity-50"
-                >
-                  A-
-                </button>
-                <span className="w-12 text-center">{fontSize}px</span>
-                <button
-                  onClick={() => setFontSize(fontSize + 1)}
-                  disabled={fontSize >= 24}
-                  className="p-2 rounded-lg border disabled:opacity-50"
-                >
-                  A+
-                </button>
-              </div>
-              
-              <button
-                onClick={() => downloadBook(selectedBook)}
-                className="p-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
-                title="Download"
-              >
-                <Download size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {filteredBooks.map((book) => (
+                            <div 
+                                key={book.id} 
+                                className={`rounded-xl overflow-hidden shadow-lg transform transition-transform hover:-translate-y-1 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+                            >
+                                <div className="relative">
+                                    <img 
+                                        src={book.cover} 
+                                        alt={book.title}
+                                        className="w-full h-64 object-cover"
+                                    />
+                                    <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded">
+                                        {book.rating} ★
+                                    </div>
+                                </div>
+                                
+                                <div className="p-4">
+                                    <h3 className="font-bold text-lg mb-1">{book.title}</h3>
+                                    <p className={`text-sm mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                        {book.author} • {book.year}
+                                    </p>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}>
+                                            {book.genre}
+                                        </span>
+                                        <span className="text-sm">{book.totalPages} halaman</span>
+                                    </div>
+                                    
+                                    <p className="text-sm mb-4 line-clamp-3">
+                                        {book.description}
+                                    </p>
+                                    
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedBook(book);
+                                                setCurrentPage('reader');
+                                                setReadingPage(1);
+                                            }}
+                                            className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 flex items-center justify-center gap-2 transition-all"
+                                        >
+                                            <BookOpen size={16} />
+                                            Baca
+                                        </button>
+                                        <button
+                                            onClick={() => downloadBook(book)}
+                                            className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                            title="Download"
+                                        >
+                                            <Download size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => shareBook(book)}
+                                            className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                            title="Share"
+                                        >
+                                            <Share2 size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
 
-        <div className={`rounded-xl p-8 min-h-[60vh] ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-          <div 
-            className="leading-relaxed mx-auto max-w-3xl"
-            style={{ fontSize: `${fontSize}px` }}
-          >
-            {selectedBook.content[readingPage - 1]}
-          </div>
-          
-          <div className="flex justify-between items-center mt-8 pt-6 border-t">
-            <button
-              onClick={() => setReadingPage(Math.max(1, readingPage - 1))}
-              disabled={readingPage === 1}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50"
-            >
-              <ChevronLeft size={20} />
-              Sebelumnya
-            </button>
-            
-            <div className="flex items-center gap-4">
-              <input
-                type="range"
-                min="1"
-                max={selectedBook.content.length}
-                value={readingPage}
-                onChange={(e) => setReadingPage(parseInt(e.target.value))}
-                className="w-48"
-              />
-              <span>Halaman {readingPage} dari {selectedBook.content.length}</span>
-            </div>
-            
-            <button
-              onClick={() => setReadingPage(Math.min(selectedBook.content.length, readingPage + 1))}
-              disabled={readingPage === selectedBook.content.length}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50"
-            >
-              Berikutnya
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+            // Reader Page
+            const renderReader = () => {
+                if (!selectedBook) return null;
+                
+                return (
+                    <div className="animate-fadeIn">
+                        <div className="mb-6">
+                            <button
+                                onClick={() => setCurrentPage('home')}
+                                className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-4 transition-colors"
+                            >
+                                <ChevronLeft size={20} />
+                                Kembali ke Beranda
+                            </button>
+                            
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h2 className="text-2xl font-bold">{selectedBook.title}</h2>
+                                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                        {selectedBook.author} • Halaman {readingPage} dari {selectedBook.content.length}
+                                    </p>
+                                </div>
+                                
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => setFontSize(fontSize - 1)}
+                                            disabled={fontSize <= 12}
+                                            className="p-2 rounded-lg border disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                        >
+                                            A-
+                                        </button>
+                                        <span className="w-12 text-center">{fontSize}px</span>
+                                        <button
+                                            onClick={() => setFontSize(fontSize + 1)}
+                                            disabled={fontSize >= 24}
+                                            className="p-2 rounded-lg border disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                        >
+                                            A+
+                                        </button>
+                                    </div>
+                                    
+                                    <button
+                                        onClick={() => downloadBook(selectedBook)}
+                                        className="p-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                        title="Download"
+                                    >
+                                        <Download size={20} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-  // Library Page
-  const renderLibrary = () => (
-    <div>
-      <h2 className="text-3xl font-bold mb-6">Koleksi Buku Saya</h2>
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 shadow-lg`}>
-        <p className="text-center py-8">Fitur perpustakaan pribadi akan segera hadir!</p>
-      </div>
-    </div>
-  );
+                        <div className={`rounded-xl p-8 min-h-[60vh] ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+                            <div 
+                                className="leading-relaxed mx-auto max-w-3xl transition-all"
+                                style={{ fontSize: `${fontSize}px` }}
+                            >
+                                {selectedBook.content[readingPage - 1]}
+                            </div>
+                            
+                            <div className="flex justify-between items-center mt-8 pt-6 border-t">
+                                <button
+                                    onClick={() => setReadingPage(Math.max(1, readingPage - 1))}
+                                    disabled={readingPage === 1}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                >
+                                    <ChevronLeft size={20} />
+                                    Sebelumnya
+                                </button>
+                                
+                                <div className="flex items-center gap-4">
+                                    <input
+                                        type="range"
+                                        min="1"
+                                        max={selectedBook.content.length}
+                                        value={readingPage}
+                                        onChange={(e) => setReadingPage(parseInt(e.target.value))}
+                                        className="w-48"
+                                    />
+                                    <span>Halaman {readingPage} dari {selectedBook.content.length}</span>
+                                </div>
+                                
+                                <button
+                                    onClick={() => setReadingPage(Math.min(selectedBook.content.length, readingPage + 1))}
+                                    disabled={readingPage === selectedBook.content.length}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                                >
+                                    Berikutnya
+                                    <ChevronRight size={20} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
 
-  return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      {/* Header */}
-      <header className={`sticky top-0 z-40 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Book className="text-blue-500" size={32} />
-              <div>
-                <h1 className="text-2xl font-bold">SYAFI Reader</h1>
-                <p className="text-xs opacity-70">System for Your Advanced Free Information</p>
-              </div>
-            </div>
+            // Library Page
+            const renderLibrary = () => (
+                <div className="animate-fadeIn">
+                    <h2 className="text-3xl font-bold mb-6">Koleksi Buku Saya</h2>
+                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 shadow-lg`}>
+                        <div className="text-center py-12">
+                            <Book className="w-24 h-24 mx-auto mb-6 text-gray-400" />
+                            <h3 className="text-xl font-semibold mb-2">Perpustakaan Pribadi</h3>
+                            <p className="text-gray-500 mb-6">Fitur perpustakaan pribadi akan segera hadir!</p>
+                            <button 
+                                onClick={() => setCurrentPage('home')}
+                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all"
+                            >
+                                Jelajahi Buku
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
 
-            {/* Search Bar */}
-            <div className="hidden md:block flex-1 max-w-2xl mx-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Cari buku, penulis, atau genre..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-                />
-                <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-              </div>
-            </div>
+            return (
+                <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300`}>
+                    {/* Header */}
+                    <header className={`sticky top-0 z-40 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg transition-colors duration-300`}>
+                        <div className="container mx-auto px-4 py-3">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Book className="text-blue-500" size={32} />
+                                    <div>
+                                        <h1 className="text-2xl font-bold">SYAFI Reader</h1>
+                                        <p className="text-xs opacity-70">System for Your Advanced Free Information</p>
+                                    </div>
+                                </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-                title={darkMode ? 'Mode Terang' : 'Mode Gelap'}
-              >
-                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-              
-              {!isAdmin ? (
-                <button
-                  onClick={() => setShowLogin(true)}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700"
-                >
-                  Admin Login
-                </button>
-              ) : (
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 flex items-center gap-2"
-                >
-                  <LogOut size={18} />
-                  Logout
-                </button>
-              )}
-            </div>
-          </div>
-          
-          {/* Mobile Search */}
-          <div className="mt-4 md:hidden">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Cari buku, penulis, atau genre..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
-              />
-              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-            </div>
-          </div>
-        </div>
-      </header>
+                                {/* Search Bar */}
+                                <div className="hidden md:block flex-1 max-w-2xl mx-8">
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            placeholder="Cari buku, penulis, atau genre..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                        />
+                                        <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+                                    </div>
+                                </div>
 
-      {/* Navigation */}
-      <nav className={`sticky top-16 z-30 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
-        <div className="container mx-auto px-4">
-          <div className="flex overflow-x-auto">
-            <button
-              onClick={() => setCurrentPage('home')}
-              className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'home' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
-            >
-              <Home size={18} />
-              Beranda
-            </button>
-            <button
-              onClick={() => setCurrentPage('library')}
-              className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'library' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
-            >
-              <Library size={18} />
-              Perpustakaan
-            </button>
-            {isAdmin && (
-              <button
-                onClick={() => setCurrentPage('admin')}
-                className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'admin' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
-              >
-                <Settings size={18} />
-                Admin Panel
-              </button>
-            )}
-          </div>
-        </div>
-      </nav>
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        onClick={() => setDarkMode(!darkMode)}
+                                        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                                        title={darkMode ? 'Mode Terang' : 'Mode Gelap'}
+                                    >
+                                        {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                                    </button>
+                                    
+                                    {!isAdmin ? (
+                                        <button
+                                            onClick={() => setShowLogin(true)}
+                                            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all"
+                                        >
+                                            Admin Login
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handleLogout}
+                                            className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 flex items-center gap-2 transition-all"
+                                        >
+                                            <LogOut size={18} />
+                                            Logout
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            {/* Mobile Search */}
+                            <div className="mt-4 md:hidden">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        placeholder="Cari buku, penulis, atau genre..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                                    />
+                                    <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+                                </div>
+                            </div>
+                        </div>
+                    </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        {currentPage === 'home' && renderHome()}
-        {currentPage === 'reader' && renderReader()}
-        {currentPage === 'library' && renderLibrary()}
-        {currentPage === 'admin' && renderAdmin()}
-      </main>
+                    {/* Navigation */}
+                    <nav className={`sticky top-16 z-30 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md transition-colors duration-300`}>
+                        <div className="container mx-auto px-4">
+                            <div className="flex overflow-x-auto">
+                                <button
+                                    onClick={() => setCurrentPage('home')}
+                                    className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap transition-colors ${currentPage === 'home' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-500'}`}
+                                >
+                                    <Home size={18} />
+                                    Beranda
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage('library')}
+                                    className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap transition-colors ${currentPage === 'library' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-500'}`}
+                                >
+                                    <Library size={18} />
+                                    Perpustakaan
+                                </button>
+                                {isAdmin && (
+                                    <button
+                                        onClick={() => setCurrentPage('admin')}
+                                        className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap transition-colors ${currentPage === 'admin' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-500'}`}
+                                    >
+                                        <Settings size={18} />
+                                        Admin Panel
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </nav>
 
-      {/* Footer */}
-      <footer className={`${darkMode ? 'bg-gray-800' : 'bg-gray-100'} mt-12 py-8`}>
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h3 className="text-xl font-bold mb-2">SYAFI Reader</h3>
-            <p className="opacity-70">© 2026 System for Your Advanced Free Information</p>
-            <p className="text-sm mt-4 opacity-60">Platform membaca buku digital gratis untuk semua orang</p>
-          </div>
-        </div>
-      </footer>
+                    {/* Main Content */}
+                    <main className="container mx-auto px-4 py-8">
+                        {currentPage === 'home' && renderHome()}
+                        {currentPage === 'reader' && renderReader()}
+                        {currentPage === 'library' && renderLibrary()}
+                        {currentPage === 'admin' && renderAdmin()}
+                    </main>
 
-      {/* Login Modal */}
-      {showLogin && renderLogin()}
-    </div>
-  );
-};
+                    {/* Footer */}
+                    <footer className={`${darkMode ? 'bg-gray-800' : 'bg-gray-100'} mt-12 py-8 transition-colors duration-300`}>
+                        <div className="container mx-auto px-4">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center gap-2 mb-4">
+                                    <Book className="text-blue-500" size={24} />
+                                    <h3 className="text-xl font-bold">SYAFI Reader</h3>
+                                </div>
+                                <p className="opacity-70">© 2026 System for Your Advanced Free Information</p>
+                                <p className="text-sm mt-4 opacity-60">Platform membaca buku digital gratis untuk semua orang</p>
+                                <div className="flex justify-center gap-6 mt-6">
+                                    <button className="opacity-70 hover:opacity-100 transition-opacity">Tentang</button>
+                                    <button className="opacity-70 hover:opacity-100 transition-opacity">Kontak</button>
+                                    <button className="opacity-70 hover:opacity-100 transition-opacity">Privasi</button>
+                                    <button className="opacity-70 hover:opacity-100 transition-opacity">Syarat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
 
-export default SyafiReader;
+                    {/* Login Modal */}
+                    {showLogin && renderLogin()}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<SyafiReader />, document.getElementById('root'));
+    </script>
+</body>
+</html>
