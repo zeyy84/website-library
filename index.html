@@ -9,7 +9,7 @@
         :root {
             --primary: #4361ee;
             --secondary: #3a0ca3;
-            --accent: #f72585;
+            --accent: #008080;
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
@@ -521,7 +521,7 @@
             font-size: 2rem;
             font-weight: 800;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #4361ee, #f72585);
+            background: linear-gradient(to right, #4361ee, #008080);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -744,14 +744,14 @@
             
             <div>
                 <h3 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Kontak</h3>
-                <p style="color: #aaa; margin-bottom: 15px;"><i class="fas fa-envelope" style="margin-right: 10px;"></i> hello@safireading.com</p>
+                <p style="color: #aaa; margin-bottom: 15px;"><i class="fas fa-envelope" style="margin-right: 10px;"></i> hai@safireading.com</p>
                 <p style="color: #aaa; margin-bottom: 15px;"><i class="fas fa-phone" style="margin-right: 10px;"></i> +62 812 3456 7890</p>
-                <p style="color: #aaa;"><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Jakarta, Indonesia</p>
+                <p style="color: #aaa;"><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Purbalingga, Indonesia</p>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2023 SYAFI READING. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-heart" style="color: #f72585;"></i> untuk dunia yang lebih inspiratif.</p>
+            <p>&copy; 2023 SYAFI READING. Semua hak dilindungi. | Dibuat dengan <i class="fas fa-star" style="color: #e8f70a;"></i> untuk dunia yang lebih inspiratif.</p>
         </div>
     </footer>
 
@@ -953,14 +953,14 @@
                 const sampleQuotes = [
                     {
                         id: Date.now(),
-                        author: "Rina",
-                        text: "Jangan pernah berhenti bermimpi, karena mimpi adalah bahan bakar kehidupan.",
+                        author: "123",
+                        text: "Apanich.",
                         date: new Date().toISOString()
                     },
                     {
                         id: Date.now() + 1,
-                        author: "Andi",
-                        text: "Kesuksesan dimulai dari langkah pertama yang berani.",
+                        author: "don",
+                        text: "Assalamualaikum.",
                         date: new Date().toISOString()
                     }
                 ];
@@ -984,7 +984,7 @@
                         <div class="quote-author">${quote.author}</div>
                     </div>
                     <div class="quote-likes">
-                        <i class="fas fa-heart" style="color: #f72585;"></i>
+                        <i class="fas fa-star" style="color: #e8f70a;"></i>
                         <span>${formatNumber(quote.likes)} suka</span>
                     </div>
                 `;
