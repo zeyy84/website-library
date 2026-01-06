@@ -3,1234 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYAFI Reader - Sistem Buku Digital Gratis</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    
-    <!-- Font Awesome Icons -->
+    <title>Kata-Kata Motivasi dari Tokoh Terkenal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         * {
-            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(59, 130, 246, 0.3);
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #182848;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4b6cb7;
+        }
+        
+        /* Motivasi Tokoh */
+        .quotes-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+        
+        .quote-card {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4b6cb7;
+            transition: transform 0.3s ease;
+        }
+        
+        .quote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #444;
+        }
+        
+        .quote-author {
+            font-weight: 600;
+            color: #4b6cb7;
+            text-align: right;
+            font-size: 1.1rem;
+        }
+        
+        .quote-author:before {
+            content: "— ";
+        }
+        
+        /* Form Tambah Kutipan */
+        .add-quote-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #4b6cb7;
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(75, 108, 183, 0.4);
+        }
+        
+        button i {
+            margin-right: 10px;
+        }
+        
+        /* Kutipan Saya */
+        .my-quotes-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 50px;
+        }
+        
+        .my-quote-card {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4b6cb7;
+            position: relative;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s linear infinite;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .delete-btn:hover {
+            background-color: #ff5252;
         }
         
-        .animate-fadeIn {
-            animation: fadeIn 0.5s ease-out;
+        .empty-message {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 30px;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #e1e5eb;
+            margin-top: 30px;
         }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex flex-col items-center justify-center">
-        <div class="loading-spinner mb-4"></div>
-        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">SYAFI Reader</div>
-        <p class="mt-2 text-gray-600 dark:text-gray-400">Memuat perpustakaan digital...</p>
-    </div>
-
-    <!-- Header -->
-    <header class="sticky top-0 z-40 bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="text-blue-500 dark:text-blue-400">
-                        <i class="fas fa-book-open text-2xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SYAFI Reader</h1>
-                        <p class="text-xs opacity-70">System for Your Advanced Free Information</p>
-                    </div>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-quote-left"></i> Kata-Kata Motivasi <i class="fas fa-quote-right"></i></h1>
+            <p class="subtitle">Kumpulan kutipan inspiratif dari tokoh-tokoh terkenal dunia. Tambahkan juga kata-kata motivasi Anda sendiri!</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="quotes-container">
+                <h2 class="section-title"><i class="fas fa-star"></i> Kutipan Tokoh Terkenal</h2>
+                <div id="famous-quotes">
+                    <!-- Kutipan dari tokoh terkenal akan dimuat di sini -->
                 </div>
-
-                <!-- Search Bar -->
-                <div class="hidden md:block flex-1 max-w-2xl mx-8">
-                    <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Cari buku, penulis, atau genre..." 
-                            class="w-full px-4 py-2 pl-10 rounded-full border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <div class="absolute left-3 top-2.5 text-gray-400">
-                            <i class="fas fa-search"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <!-- Theme Toggle -->
-                    <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <i id="sunIcon" class="fas fa-sun text-yellow-500"></i>
-                        <i id="moonIcon" class="fas fa-moon text-indigo-400 hidden"></i>
-                    </button>
-                    
-                    <!-- Admin Button -->
-                    <button id="adminBtn" class="hidden bg-green-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-700">
-                        <i class="fas fa-user-cog mr-2"></i>Admin
-                    </button>
-                    
-                    <!-- Login Button -->
-                    <button id="loginBtn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full font-semibold hover:opacity-90">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="sticky top-16 z-30 bg-white dark:bg-gray-800 shadow-sm">
-        <div class="container mx-auto px-4">
-            <div class="flex overflow-x-auto py-2">
-                <button data-page="home" class="page-btn flex items-center gap-2 px-5 py-3 whitespace-nowrap border-b-2 border-blue-500 text-blue-500 font-medium">
-                    <i class="fas fa-home"></i> Beranda
-                </button>
-                <button data-page="library" class="page-btn flex items-center gap-2 px-5 py-3 whitespace-nowrap hover:text-blue-500 dark:hover:text-blue-400">
-                    <i class="fas fa-book"></i> Perpustakaan
-                </button>
-                <button data-page="favorites" class="page-btn flex items-center gap-2 px-5 py-3 whitespace-nowrap hover:text-blue-500 dark:hover:text-blue-400">
-                    <i class="fas fa-heart"></i> Favorit
-                </button>
-                <button data-page="manage" class="page-btn hidden flex items-center gap-2 px-5 py-3 whitespace-nowrap hover:text-blue-500 dark:hover:text-blue-400">
-                    <i class="fas fa-cog"></i> Kelola Buku
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8" id="mainContent">
-        <!-- Home Content -->
-        <div id="homePage" class="animate-fadeIn">
-            <!-- Hero Section -->
-            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white mb-10">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div class="md:w-2/3 mb-8 md:mb-0">
-                        <h1 class="text-3xl md:text-4xl font-bold mb-4">Jelajahi Dunia Ilmu Pengetahuan</h1>
-                        <p class="text-lg mb-6 opacity-90">SYAFI Reader menghadirkan buku digital gratis dari berbagai genre. Mulai petualangan membaca Anda sekarang!</p>
-                        <button onclick="showPage('library')" class="bg-white text-blue-700 px-6 py-3 rounded-full font-semibold hover:bg-gray-100">
-                            <i class="fas fa-book-open mr-2"></i>Jelajahi Buku
-                        </button>
-                    </div>
-                    <div>
-                        <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop" alt="Book Cover" class="w-48 h-64 object-cover rounded-lg shadow-xl">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
-                            <i class="fas fa-book text-blue-600 dark:text-blue-400"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold" id="totalBooksCount">0</h3>
-                            <p class="text-gray-600 dark:text-gray-400">Total Buku</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mr-4">
-                            <i class="fas fa-users text-green-600 dark:text-green-400"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold" id="activeReadersCount">0</h3>
-                            <p class="text-gray-600 dark:text-gray-400">Pembaca Aktif</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center mr-4">
-                            <i class="fas fa-download text-purple-600 dark:text-purple-400"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold" id="totalDownloadsCount">0</h3>
-                            <p class="text-gray-600 dark:text-gray-400">Total Download</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Books -->
-            <div class="mb-10">
-                <h2 class="text-2xl font-bold mb-6">Buku Terpopuler</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="featuredBooksContainer">
-                    <!-- Books will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Library Content -->
-        <div id="libraryPage" class="hidden">
-            <h2 class="text-2xl font-bold mb-6">Semua Buku</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="allBooksContainer">
-                <!-- Books will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Favorites Content -->
-        <div id="favoritesPage" class="hidden">
-            <h2 class="text-2xl font-bold mb-6">Buku Favorit Saya</h2>
-            <div id="favoritesContainer">
-                <!-- Favorites will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Manage Books Content -->
-        <div id="managePage" class="hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Kelola Buku</h2>
-                <button onclick="showAddBookForm()" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700">
-                    <i class="fas fa-plus mr-2"></i>Tambah Buku
-                </button>
             </div>
             
-            <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow mb-8">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th class="py-3 px-4 text-left">No</th>
-                                <th class="py-3 px-4 text-left">Judul</th>
-                                <th class="py-3 px-4 text-left">Penulis</th>
-                                <th class="py-3 px-4 text-left">Genre</th>
-                                <th class="py-3 px-4 text-left">Tahun</th>
-                                <th class="py-3 px-4 text-left">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="booksTableBody">
-                            <!-- Books will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="add-quote-container">
+                <h2 class="section-title"><i class="fas fa-plus-circle"></i> Tambah Kutipan Anda</h2>
+                <form id="add-quote-form">
+                    <div class="form-group">
+                        <label for="quote-text">Kutipan Motivasi</label>
+                        <textarea id="quote-text" placeholder="Tulis kata-kata motivasi Anda di sini..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="author-name">Nama Anda (atau nama tokoh)</label>
+                        <input type="text" id="author-name" placeholder="Masukkan nama Anda atau nama tokoh" required>
+                    </div>
+                    <button type="submit"><i class="fas fa-cloud-upload-alt"></i> Unggah Kutipan</button>
+                </form>
             </div>
         </div>
-    </main>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Masuk ke SYAFI</h2>
-                <button onclick="hideModal('login')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Username</label>
-                    <input type="text" id="username" 
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Masukkan username">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Password</label>
-                    <input type="password" id="password" 
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Masukkan password">
-                </div>
-
-                <button onclick="login()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90">
-                    Masuk
-                </button>
-                
-                <div class="text-center text-sm text-gray-600 dark:text-gray-400">
-                    <p class="mt-4">Akun Demo:</p>
-                    <p><strong>User:</strong> user / user123</p>
-                    <p><strong>Admin:</strong> admin / admin123</p>
-                </div>
+        
+        <div class="my-quotes-container">
+            <h2 class="section-title"><i class="fas fa-user"></i> Kutipan Saya</h2>
+            <div id="my-quotes">
+                <div class="empty-message">Belum ada kutipan yang Anda tambahkan. Mulailah dengan menambahkan kutipan pertama Anda!</div>
             </div>
         </div>
+        
+        <footer>
+            <p>Website Motivasi &copy; 2023 | Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i> untuk menginspirasi</p>
+        </footer>
     </div>
-
-    <!-- Book Detail Modal -->
-    <div id="bookDetailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <!-- Book details will be loaded here -->
-        </div>
-    </div>
-
-    <!-- Add/Edit Book Modal -->
-    <div id="bookFormModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 id="bookFormTitle" class="text-2xl font-bold">Tambah Buku Baru</h2>
-                <button onclick="hideModal('bookForm')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <form id="bookForm" class="space-y-6">
-                <input type="hidden" id="bookId">
-                
-                <!-- Identitas Buku -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">ISBN 13</label>
-                        <input type="text" id="isbn13" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">ISBN 10</label>
-                        <input type="text" id="isbn10" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">ISSN</label>
-                        <input type="text" id="issn" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">Judul <span class="text-red-500">*</span></label>
-                        <input type="text" id="title" required
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold mb-2">Tema / Sub Judul</label>
-                        <input type="text" id="theme" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold mb-2">Link E-Book (PDF) <span class="text-red-500">*</span></label>
-                        <input type="url" id="downloadLink" required
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="https://drive.google.com/...">
-                    </div>
-                </div>
-
-                <!-- Klasifikasi -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Klasifikasi</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Klasifikasi (DDC)</label>
-                            <select id="ddc" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">Pilih Klasifikasi</option>
-                                <option value="000">000 - Karya Umum</option>
-                                <option value="100">100 - Filsafat & Psikologi</option>
-                                <option value="200">200 - Agama</option>
-                                <option value="300">300 - Ilmu Sosial</option>
-                                <option value="400">400 - Bahasa</option>
-                                <option value="500">500 - Ilmu Pengetahuan Alam</option>
-                                <option value="600">600 - Teknologi</option>
-                                <option value="700">700 - Seni & Olahraga</option>
-                                <option value="800">800 - Sastra</option>
-                                <option value="900">900 - Sejarah & Geografi</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Kode Klasifikasi Manual</label>
-                            <input type="text" id="manualCode" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Informasi Buku -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Informasi Buku</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Bahasa</label>
-                            <select id="language" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="Indonesia">Indonesia</option>
-                                <option value="Inggris">Inggris</option>
-                                <option value="Arab">Arab</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Edisi</label>
-                            <input type="text" id="edition" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Deskripsi Fisik / Penaklikan</label>
-                            <textarea id="physicalDesc" rows="2"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Penulis <span class="text-red-500">*</span></label>
-                            <input type="text" id="author" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Genre <span class="text-red-500">*</span></label>
-                            <input type="text" id="genre" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Jurusan</label>
-                            <select id="department" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">Pilih Jurusan</option>
-                                <option value="Bimbingan dan Konseling Pendidikan Islam">Bimbingan dan Konseling Pendidikan Islam</option>
-                                <option value="Hukum Pidana Islam">Hukum Pidana Islam</option>
-                                <option value="Pendidikan Guru Madrasah Ibtidaiyah (S2)">Pendidikan Guru Madrasah Ibtidaiyah (S2)</option>
-                                <option value="Ekonomi Syariah (S2)">Ekonomi Syariah (S2)</option>
-                                <option value="Manajemen Pendidikan (S3)">Manajemen Pendidikan (S3)</option>
-                                <option value="Ekonomi Syari`ah">Ekonomi Syari`ah</option>
-                                <option value="Komunikasi dan Penyiaran Islam">Komunikasi dan Penyiaran Islam</option>
-                                <option value="Perbankan Syariah">Perbankan Syariah</option>
-                                <option value="Pendidikan Islam Anak Usia Dini">Pendidikan Islam Anak Usia Dini</option>
-                                <option value="Manajemen Pendidikan Islam">Manajemen Pendidikan Islam</option>
-                                <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
-                                <option value="Pendidikan Guru Madrasah Ibtidaiyah">Pendidikan Guru Madrasah Ibtidaiyah</option>
-                                <option value="Manajemen Pendidikan Islam (S2)">Manajemen Pendidikan Islam (S2)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Jenis</label>
-                            <select id="type" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="Text">Text</option>
-                                <option value="Audio">Audio</option>
-                                <option value="Video">Video</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Tipe Default</label>
-                            <select id="defaultType" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="Textbook">Textbook</option>
-                                <option value="Journal">Journal</option>
-                                <option value="Article">Article</option>
-                                <option value="Proceedings">Proceedings</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Penerbit</label>
-                            <input type="text" id="publisher" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Tanggal Dimasukkan</label>
-                            <input type="date" id="entryDate" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Tahun Terbit <span class="text-red-500">*</span></label>
-                            <input type="number" id="year" required min="1900" max="2100"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Tempat Terbit</label>
-                            <input type="text" id="publicationPlace" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Halaman</label>
-                            <input type="number" id="pages" min="0"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Link Preview</label>
-                            <input type="url" id="readLink" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="https://drive.google.com/.../preview">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Link Gambar Cover <span class="text-red-500">*</span></label>
-                            <input type="url" id="cover" required
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="https://...">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Deskripsi <span class="text-red-500">*</span></label>
-                            <textarea id="description" required rows="3"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Konten Preview (pisahkan dengan baris baru)</label>
-                            <textarea id="content" rows="4"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Masukkan paragraf pertama buku..."></textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Catatan</label>
-                            <textarea id="notes" rows="2"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Keterangan</label>
-                            <textarea id="additionalInfo" rows="2"
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tombol Aksi -->
-                <div class="flex justify-end gap-4 pt-6">
-                    <button type="button" onclick="hideModal('bookForm')" 
-                        class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700">
-                        Batal
-                    </button>
-                    <button type="submit" 
-                        class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
-                        Simpan Buku
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Confirm Delete Modal -->
-    <div id="confirmDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full">
-            <div class="text-center">
-                <i class="fas fa-exclamation-triangle text-5xl text-yellow-500 mb-4"></i>
-                <h2 class="text-2xl font-bold mb-4">Hapus Buku</h2>
-                <p class="mb-6">Apakah Anda yakin ingin menghapus buku ini? Tindakan ini tidak dapat dibatalkan.</p>
-                
-                <div class="flex justify-center gap-4">
-                    <button onclick="hideModal('confirmDelete')" 
-                        class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700">
-                        Batal
-                    </button>
-                    <button id="confirmDeleteBtn" 
-                        class="px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700">
-                        Hapus
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-4 right-4 bg-gray-800 text-white px-6 py-4 rounded-lg shadow-xl z-50 transform translate-x-full transition-transform duration-300">
-        <div class="flex items-center">
-            <i id="toastIcon" class="fas fa-check-circle mr-3 text-green-400"></i>
-            <p id="toastMessage" class="font-medium">Pesan berhasil ditampilkan</p>
-        </div>
-    </div>
-
+    
+    <div class="notification" id="notification">Kutipan berhasil ditambahkan!</div>
+    
     <script>
-        // Application State
-        const state = {
-            currentPage: 'home',
-            darkMode: localStorage.getItem('darkMode') === 'true',
-            isLoggedIn: false,
-            isAdmin: false,
-            books: [],
-            favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-            user: null,
-            bookToDelete: null
-        };
-
-        // Initialize App
-        function initApp() {
-            // Load books
-            const savedBooks = localStorage.getItem('books');
-            state.books = savedBooks ? JSON.parse(savedBooks) : [];
-            
-            // Apply dark mode
-            applyDarkMode();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Load initial page
-            showPage('home');
-            
-            // Hide loading screen
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 800);
-        }
-
-        // Apply dark mode
-        function applyDarkMode() {
-            if (state.darkMode) {
-                document.body.classList.add('dark');
-                document.getElementById('sunIcon').classList.add('hidden');
-                document.getElementById('moonIcon').classList.remove('hidden');
+        // Data kutipan dari tokoh terkenal
+        const famousQuotes = [
+            {
+                text: "Hidup adalah tentang membuat dampak, bukan hanya mencari nafkah.",
+                author: "Kevin Kruse"
+            },
+            {
+                text: "Apapun yang dapat kamu bayangkan, itu nyata.",
+                author: "Pablo Picasso"
+            },
+            {
+                text: "Sukses bukanlah akhir, kegagalan bukanlah fatal: yang terpenting adalah keberanian untuk melanjutkan.",
+                author: "Winston Churchill"
+            },
+            {
+                text: "Cara terbaik untuk memulai adalah dengan berhenti berbicara dan mulai melakukan.",
+                author: "Walt Disney"
+            },
+            {
+                text: "Masa depan milik mereka yang percaya pada keindahan mimpi-mimpi mereka.",
+                author: "Eleanor Roosevelt"
+            },
+            {
+                text: "Satu-satunya cara untuk melakukan pekerjaan yang hebat adalah dengan mencintai apa yang Anda lakukan.",
+                author: "Steve Jobs"
+            },
+            {
+                text: "Jangan menyerah. Menderitalah sekarang dan hiduplah sebagai juara nantinya.",
+                author: "Muhammad Ali"
+            },
+            {
+                text: "Pikiran adalah segalanya. Apa yang kamu pikirkan, itulah yang akan terjadi.",
+                author: "Buddha"
+            },
+            {
+                text: "Kebahagiaan bukanlah sesuatu yang sudah jadi. Itu berasal dari tindakanmu sendiri.",
+                author: "Dalai Lama"
+            },
+            {
+                text: "Orang yang cukup gila untuk berpikir bisa mengubah dunia, adalah orang yang melakukannya.",
+                author: "Steve Jobs"
             }
-        }
-
-        // Toggle theme
-        function toggleTheme() {
-            state.darkMode = !state.darkMode;
-            localStorage.setItem('darkMode', state.darkMode);
+        ];
+        
+        // Fungsi untuk menampilkan kutipan dari tokoh terkenal
+        function displayFamousQuotes() {
+            const container = document.getElementById('famous-quotes');
             
-            if (state.darkMode) {
-                document.body.classList.add('dark');
-                document.getElementById('sunIcon').classList.add('hidden');
-                document.getElementById('moonIcon').classList.remove('hidden');
-            } else {
-                document.body.classList.remove('dark');
-                document.getElementById('sunIcon').classList.remove('hidden');
-                document.getElementById('moonIcon').classList.add('hidden');
-            }
-            
-            showToast('Tema berhasil diubah', 'success');
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Theme toggle
-            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-            
-            // Navigation buttons
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    showPage(btn.dataset.page);
-                });
-            });
-            
-            // Login button
-            document.getElementById('loginBtn').addEventListener('click', () => {
-                showModal('login');
-            });
-            
-            // Search input
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                if (state.currentPage === 'library') {
-                    renderBooks(state.books.filter(book => 
-                        book.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                        book.author.toLowerCase().includes(e.target.value.toLowerCase()) ||
-                        book.genre.toLowerCase().includes(e.target.value.toLowerCase())
-                    ));
-                }
-            });
-            
-            // Book form submit
-            document.getElementById('bookForm').addEventListener('submit', saveBook);
-            
-            // Set today's date as default for entry date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('entryDate').value = today;
-        }
-
-        // Show page
-        function showPage(page) {
-            // Update active nav button
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                if (btn.dataset.page === page) {
-                    btn.classList.add('border-b-2', 'border-blue-500', 'text-blue-500');
-                } else {
-                    btn.classList.remove('border-b-2', 'border-blue-500', 'text-blue-500');
-                }
-            });
-            
-            // Hide all pages
-            document.querySelectorAll('#mainContent > div').forEach(div => {
-                div.classList.add('hidden');
-            });
-            
-            // Show selected page
-            const pageElement = document.getElementById(page + 'Page');
-            if (pageElement) {
-                pageElement.classList.remove('hidden');
-            }
-            
-            // Update state
-            state.currentPage = page;
-            
-            // Render page content
-            switch(page) {
-                case 'home':
-                    renderHomePage();
-                    break;
-                case 'library':
-                    renderLibraryPage();
-                    break;
-                case 'favorites':
-                    renderFavoritesPage();
-                    break;
-                case 'manage':
-                    renderManagePage();
-                    break;
-            }
-        }
-
-        // Render home page
-        function renderHomePage() {
-            // Update stats
-            const totalDownloads = state.books.reduce((sum, book) => sum + book.downloads, 0);
-            const activeReaders = Math.floor(totalDownloads * 0.3) + 150;
-            
-            document.getElementById('totalBooksCount').textContent = state.books.length;
-            document.getElementById('activeReadersCount').textContent = activeReaders;
-            document.getElementById('totalDownloadsCount').textContent = totalDownloads;
-            
-            // Render featured books
-            const featuredBooks = state.books.filter(book => book.isFeatured);
-            renderBookCards(featuredBooks.length > 0 ? featuredBooks : state.books.slice(0, 4), 'featuredBooksContainer');
-        }
-
-        // Render library page
-        function renderLibraryPage() {
-            renderBookCards(state.books, 'allBooksContainer');
-        }
-
-        // Render favorites page
-        function renderFavoritesPage() {
-            const favoritesContainer = document.getElementById('favoritesContainer');
-            const favoriteBooks = state.books.filter(book => state.favorites.includes(book.id));
-            
-            if (favoriteBooks.length === 0) {
-                favoritesContainer.innerHTML = `
-                    <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl p-6">
-                        <i class="fas fa-heart text-5xl text-gray-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold mb-2">Belum ada buku favorit</h3>
-                        <p class="text-gray-500 mb-6">Tambahkan buku ke favorit dengan menekan tombol hati</p>
-                        <button onclick="showPage('library')" class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700">
-                            <i class="fas fa-book mr-2"></i>Jelajahi Buku
-                        </button>
-                    </div>
+            famousQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'quote-card';
+                quoteCard.innerHTML = `
+                    <p class="quote-text">"${quote.text}"</p>
+                    <p class="quote-author">${quote.author}</p>
                 `;
-            } else {
-                renderBookCards(favoriteBooks, 'favoritesContainer');
-            }
+                container.appendChild(quoteCard);
+            });
         }
-
-        // Render manage page
-        function renderManagePage() {
-            const tableBody = document.getElementById('booksTableBody');
-            if (!tableBody) return;
+        
+        // Fungsi untuk memuat kutipan yang sudah disimpan di localStorage
+        function loadMyQuotes() {
+            const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
+            const container = document.getElementById('my-quotes');
             
-            tableBody.innerHTML = state.books.map((book, index) => `
-                <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td class="py-3 px-4">${index + 1}</td>
-                    <td class="py-3 px-4 font-medium">${book.title}</td>
-                    <td class="py-3 px-4">${book.author}</td>
-                    <td class="py-3 px-4">${book.genre}</td>
-                    <td class="py-3 px-4">${book.year}</td>
-                    <td class="py-3 px-4">
-                        <div class="flex gap-2">
-                            <button onclick="editBook(${book.id})" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
-                                <i class="fas fa-edit mr-1"></i>Edit
-                            </button>
-                            <button onclick="confirmDeleteBook(${book.id})" class="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600">
-                                <i class="fas fa-trash mr-1"></i>Hapus
-                            </button>
-                            <button onclick="toggleFeatured(${book.id})" class="px-3 py-1 ${book.isFeatured ? 'bg-yellow-500' : 'bg-gray-500'} text-white rounded text-sm hover:opacity-90">
-                                <i class="fas ${book.isFeatured ? 'fa-star' : 'fa-star-o'} mr-1"></i>${book.isFeatured ? 'Unfeature' : 'Feature'}
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Render book cards
-        function renderBookCards(books, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            
-            container.innerHTML = books.map(book => `
-                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                    <div class="relative">
-                        <img src="${book.cover}" alt="${book.title}" class="w-full h-64 object-cover">
-                        <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded">
-                            ${book.rating || 4.0} <i class="fas fa-star text-yellow-400"></i>
-                        </div>
-                        <div class="absolute top-2 left-2">
-                            <button onclick="toggleFavorite(${book.id})" class="w-10 h-10 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center shadow-md hover:scale-110">
-                                <i class="fas fa-heart ${state.favorites.includes(book.id) ? 'text-red-500' : 'text-gray-400'}"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1 line-clamp-1">${book.title}</h3>
-                        <p class="text-sm mb-2 text-gray-600 dark:text-gray-300">
-                            ${book.author} • ${book.year}
-                        </p>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                ${book.genre}
-                            </span>
-                            <span class="text-sm">${book.pages || 0} hlm</span>
-                        </div>
-                        
-                        <p class="text-sm mb-4 line-clamp-2">
-                            ${book.description}
-                        </p>
-                        
-                        <div class="flex gap-2">
-                            <button onclick="readBookOnline(${book.id})" class="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
-                                <i class="fas fa-book-open"></i> Baca
-                            </button>
-                            <button onclick="downloadBook(${book.id})" class="p-2.5 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Download">
-                                <i class="fas fa-download"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Show book detail
-        function showBookDetail(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            const isFavorite = state.favorites.includes(bookId);
-            
-            const modal = document.getElementById('bookDetailModal');
-            modal.innerHTML = `
-                <div class="animate-fadeIn">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <h2 class="text-2xl font-bold">${book.title}</h2>
-                            <p class="text-gray-600 dark:text-gray-400">${book.author} • ${book.year}</p>
-                        </div>
-                        <button onclick="hideModal('bookDetail')" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row gap-8 mb-8">
-                        <div class="md:w-1/3">
-                            <img src="${book.cover}" alt="${book.title}" class="w-full h-auto rounded-xl shadow-lg mb-4">
-                            <div class="flex gap-2 mb-4">
-                                <span class="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                    ${book.genre}
-                                </span>
-                                <span class="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                    ${book.rating || 4.0} <i class="fas fa-star"></i>
-                                </span>
-                            </div>
-                            <div class="text-sm text-gray-600 dark:text-gray-400">
-                                <p><i class="fas fa-file-alt mr-2"></i> ${book.pages || 0} halaman</p>
-                                <p><i class="fas fa-download mr-2"></i> ${book.downloads || 0} download</p>
-                            </div>
-                        </div>
-                        
-                        <div class="md:w-2/3">
-                            <div class="mb-6">
-                                <h3 class="font-bold text-lg mb-3">Deskripsi</h3>
-                                <p class="text-gray-700 dark:text-gray-300">${book.description}</p>
-                            </div>
-                            
-                            ${book.content && book.content.length > 0 ? `
-                            <div class="mb-6">
-                                <h3 class="font-bold text-lg mb-3">Preview</h3>
-                                <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg max-h-60 overflow-y-auto">
-                                    ${book.content.slice(0, 2).map(paragraph => `
-                                        <p class="text-gray-700 dark:text-gray-300 mb-3">${paragraph}</p>
-                                    `).join('')}
-                                </div>
-                            </div>
-                            ` : ''}
-                            
-                            <div class="flex gap-3">
-                                <button onclick="readBookOnline(${book.id})" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2">
-                                    <i class="fas fa-book-open"></i> Baca Online
-                                </button>
-                                <button onclick="downloadBook(${book.id})" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center justify-center gap-2">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                                <button onclick="toggleFavorite(${book.id})" class="w-12 h-12 rounded-full ${isFavorite ? 'bg-red-500' : 'bg-gray-200 dark:bg-gray-700'} flex items-center justify-center">
-                                    <i class="fas fa-heart ${isFavorite ? 'text-white' : 'text-gray-600 dark:text-gray-300'}"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            showModal('bookDetail');
-        }
-
-        // Read book online
-        function readBookOnline(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            if (book.readLink) {
-                window.open(book.readLink, '_blank');
-                showToast(`Membuka "${book.title}" di tab baru`, 'info');
-            } else if (book.downloadLink) {
-                window.open(book.downloadLink, '_blank');
-                showToast(`Membuka "${book.title}" di tab baru`, 'info');
-            } else {
-                showBookDetail(bookId);
-            }
-        }
-
-        // Download book
-        function downloadBook(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            // Increment download count
-            book.downloads = (book.downloads || 0) + 1;
-            localStorage.setItem('books', JSON.stringify(state.books));
-            
-            if (book.downloadLink) {
-                // Create download link
-                const a = document.createElement('a');
-                a.href = book.downloadLink;
-                a.download = `${book.title.replace(/\s+/g, '_')}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                
-                showToast(`Mengunduh "${book.title}"...`, 'success');
-            } else {
-                showToast('Link download tidak tersedia', 'error');
+            if (myQuotes.length === 0) {
+                container.innerHTML = '<div class="empty-message">Belum ada kutipan yang Anda tambahkan. Mulailah dengan menambahkan kutipan pertama Anda!</div>';
+                return;
             }
             
-            // Update stats
-            if (state.currentPage === 'home') {
-                renderHomePage();
-            }
+            container.innerHTML = '';
+            
+            myQuotes.forEach((quote, index) => {
+                const quoteCard = document.createElement('div');
+                quoteCard.className = 'my-quote-card';
+                quoteCard.innerHTML = `
+                    <button class="delete-btn" onclick="deleteQuote(${index})"><i class="fas fa-trash"></i></button>
+                    <p class="quote-text">"${quote.text}"</p>
+                    <p class="quote-author">${quote.author}</p>
+                `;
+                container.appendChild(quoteCard);
+            });
         }
-
-        // Toggle favorite
-        function toggleFavorite(bookId) {
-            const index = state.favorites.indexOf(bookId);
-            
-            if (index === -1) {
-                state.favorites.push(bookId);
-                showToast('Buku ditambahkan ke favorit', 'success');
-            } else {
-                state.favorites.splice(index, 1);
-                showToast('Buku dihapus dari favorit', 'info');
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('favorites', JSON.stringify(state.favorites));
-            
-            // Update UI if on favorites page
-            if (state.currentPage === 'favorites') {
-                renderFavoritesPage();
-            }
-        }
-
-        // Login function
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // Demo login
-            if ((username === 'admin' && password === 'admin123') || 
-                (username === 'user' && password === 'user123')) {
-                
-                state.isLoggedIn = true;
-                state.isAdmin = username === 'admin';
-                state.user = { username, name: username === 'admin' ? 'Administrator' : 'Pengguna' };
-                
-                // Update UI
-                const loginBtn = document.getElementById('loginBtn');
-                const adminBtn = document.getElementById('adminBtn');
-                const manageNavBtn = document.querySelector('[data-page="manage"]');
-                
-                loginBtn.innerHTML = `<i class="fas fa-user mr-2"></i>${state.user.name}`;
-                loginBtn.onclick = () => showToast(`Sudah login sebagai ${state.user.name}`, 'info');
-                
-                if (state.isAdmin) {
-                    adminBtn.classList.remove('hidden');
-                    manageNavBtn.classList.remove('hidden');
-                    adminBtn.onclick = () => showPage('manage');
-                }
-                
-                hideModal('login');
-                showToast(`Selamat datang, ${state.user.name}!`, 'success');
-            } else {
-                showToast('Username atau password salah!', 'error');
-            }
-        }
-
-        // Show add book form
-        function showAddBookForm() {
-            document.getElementById('bookFormTitle').textContent = 'Tambah Buku Baru';
-            document.getElementById('bookForm').reset();
-            document.getElementById('bookId').value = '';
-            
-            // Set today's date as default for entry date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('entryDate').value = today;
-            
-            showModal('bookForm');
-        }
-
-        // Edit book
-        function editBook(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            document.getElementById('bookFormTitle').textContent = 'Edit Buku';
-            document.getElementById('bookId').value = book.id;
-            
-            // Fill form with book data
-            document.getElementById('isbn13').value = book.isbn13 || '';
-            document.getElementById('isbn10').value = book.isbn10 || '';
-            document.getElementById('issn').value = book.issn || '';
-            document.getElementById('title').value = book.title;
-            document.getElementById('theme').value = book.theme || '';
-            document.getElementById('downloadLink').value = book.downloadLink || '';
-            document.getElementById('ddc').value = book.ddc || '';
-            document.getElementById('manualCode').value = book.manualCode || '';
-            document.getElementById('language').value = book.language || 'Indonesia';
-            document.getElementById('edition').value = book.edition || '';
-            document.getElementById('physicalDesc').value = book.physicalDesc || '';
-            document.getElementById('author').value = book.author;
-            document.getElementById('genre').value = book.genre;
-            document.getElementById('department').value = book.department || '';
-            document.getElementById('type').value = book.type || 'Text';
-            document.getElementById('defaultType').value = book.defaultType || 'Textbook';
-            document.getElementById('publisher').value = book.publisher || '';
-            document.getElementById('entryDate').value = book.entryDate || new Date().toISOString().split('T')[0];
-            document.getElementById('year').value = book.year;
-            document.getElementById('publicationPlace').value = book.publicationPlace || '';
-            document.getElementById('pages').value = book.pages || 0;
-            document.getElementById('readLink').value = book.readLink || '';
-            document.getElementById('cover').value = book.cover;
-            document.getElementById('description').value = book.description;
-            document.getElementById('content').value = Array.isArray(book.content) ? book.content.join('\n') : '';
-            document.getElementById('notes').value = book.notes || '';
-            document.getElementById('additionalInfo').value = book.additionalInfo || '';
-            
-            showModal('bookForm');
-        }
-
-        // Save book
-        function saveBook(event) {
+        
+        // Fungsi untuk menambah kutipan baru
+        function addQuote(event) {
             event.preventDefault();
             
-            const bookId = document.getElementById('bookId').value;
-            const contentText = document.getElementById('content').value;
-            const contentArray = contentText ? contentText.split('\n').filter(line => line.trim() !== '') : [];
+            const quoteText = document.getElementById('quote-text').value.trim();
+            const authorName = document.getElementById('author-name').value.trim();
             
-            const bookData = {
-                id: bookId ? parseInt(bookId) : Date.now(),
-                isbn13: document.getElementById('isbn13').value,
-                isbn10: document.getElementById('isbn10').value,
-                issn: document.getElementById('issn').value,
-                title: document.getElementById('title').value,
-                theme: document.getElementById('theme').value,
-                downloadLink: document.getElementById('downloadLink').value,
-                ddc: document.getElementById('ddc').value,
-                manualCode: document.getElementById('manualCode').value,
-                language: document.getElementById('language').value,
-                edition: document.getElementById('edition').value,
-                physicalDesc: document.getElementById('physicalDesc').value,
-                author: document.getElementById('author').value,
-                genre: document.getElementById('genre').value,
-                department: document.getElementById('department').value,
-                type: document.getElementById('type').value,
-                defaultType: document.getElementById('defaultType').value,
-                publisher: document.getElementById('publisher').value,
-                entryDate: document.getElementById('entryDate').value,
-                year: parseInt(document.getElementById('year').value),
-                publicationPlace: document.getElementById('publicationPlace').value,
-                pages: parseInt(document.getElementById('pages').value) || 0,
-                readLink: document.getElementById('readLink').value,
-                cover: document.getElementById('cover').value,
-                description: document.getElementById('description').value,
-                content: contentArray,
-                notes: document.getElementById('notes').value,
-                additionalInfo: document.getElementById('additionalInfo').value,
-                rating: 4.0,
-                downloads: 0,
-                isFeatured: false
-            };
+            if (!quoteText || !authorName) {
+                alert('Silakan isi semua kolom!');
+                return;
+            }
             
-            // Check if editing or adding new
-            const existingIndex = state.books.findIndex(b => b.id === bookData.id);
+            // Ambil data kutipan yang sudah ada
+            const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
             
-            if (existingIndex !== -1) {
-                // Keep existing downloads and rating
-                bookData.downloads = state.books[existingIndex].downloads;
-                bookData.rating = state.books[existingIndex].rating;
-                bookData.isFeatured = state.books[existingIndex].isFeatured;
-                
-                // Update book
-                state.books[existingIndex] = bookData;
-                showToast(`Buku "${bookData.title}" berhasil diperbarui!`, 'success');
+            // Tambahkan kutipan baru
+            myQuotes.push({
+                text: quoteText,
+                author: authorName,
+                date: new Date().toISOString()
+            });
+            
+            // Simpan ke localStorage
+            localStorage.setItem('myMotivationalQuotes', JSON.stringify(myQuotes));
+            
+            // Reset form
+            document.getElementById('add-quote-form').reset();
+            
+            // Perbarui tampilan kutipan saya
+            loadMyQuotes();
+            
+            // Tampilkan notifikasi
+            showNotification('Kutipan berhasil ditambahkan!');
+        }
+        
+        // Fungsi untuk menghapus kutipan
+        function deleteQuote(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus kutipan ini?')) {
+                const myQuotes = JSON.parse(localStorage.getItem('myMotivationalQuotes')) || [];
+                myQuotes.splice(index, 1);
+                localStorage.setItem('myMotivationalQuotes', JSON.stringify(myQuotes));
+                loadMyQuotes();
+                showNotification('Kutipan berhasil dihapus!');
+            }
+        }
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            // Atur warna notifikasi berdasarkan pesan
+            if (message.includes('dihapus')) {
+                notification.style.backgroundColor = '#ff6b6b';
             } else {
-                // Add new book
-                state.books.push(bookData);
-                showToast(`Buku "${bookData.title}" berhasil ditambahkan!`, 'success');
+                notification.style.backgroundColor = '#4CAF50';
             }
-            
-            // Save to localStorage
-            localStorage.setItem('books', JSON.stringify(state.books));
-            
-            // Hide modal and refresh view
-            hideModal('bookForm');
-            
-            if (state.currentPage === 'manage') {
-                renderManagePage();
-            } else if (state.currentPage === 'library') {
-                renderLibraryPage();
-            } else if (state.currentPage === 'home') {
-                renderHomePage();
-            }
-        }
-
-        // Confirm delete book
-        function confirmDeleteBook(bookId) {
-            state.bookToDelete = bookId;
-            showModal('confirmDelete');
-            
-            // Set up delete button
-            document.getElementById('confirmDeleteBtn').onclick = deleteBook;
-        }
-
-        // Delete book
-        function deleteBook() {
-            const bookIndex = state.books.findIndex(b => b.id === state.bookToDelete);
-            
-            if (bookIndex !== -1) {
-                const bookTitle = state.books[bookIndex].title;
-                state.books.splice(bookIndex, 1);
-                
-                // Save to localStorage
-                localStorage.setItem('books', JSON.stringify(state.books));
-                
-                // Remove from favorites if exists
-                const favIndex = state.favorites.indexOf(state.bookToDelete);
-                if (favIndex !== -1) {
-                    state.favorites.splice(favIndex, 1);
-                    localStorage.setItem('favorites', JSON.stringify(state.favorites));
-                }
-                
-                showToast(`Buku "${bookTitle}" berhasil dihapus!`, 'success');
-                hideModal('confirmDelete');
-                
-                if (state.currentPage === 'manage') {
-                    renderManagePage();
-                } else if (state.currentPage === 'library') {
-                    renderLibraryPage();
-                } else if (state.currentPage === 'home') {
-                    renderHomePage();
-                } else if (state.currentPage === 'favorites') {
-                    renderFavoritesPage();
-                }
-            }
-            
-            state.bookToDelete = null;
-        }
-
-        // Toggle featured status
-        function toggleFeatured(bookId) {
-            const book = state.books.find(b => b.id === bookId);
-            if (!book) return;
-            
-            book.isFeatured = !book.isFeatured;
-            localStorage.setItem('books', JSON.stringify(state.books));
-            
-            showToast(`Buku "${book.title}" ${book.isFeatured ? 'ditambahkan ke' : 'dihapus dari'} featured!`, 'success');
-            
-            if (state.currentPage === 'manage') {
-                renderManagePage();
-            } else if (state.currentPage === 'home') {
-                renderHomePage();
-            }
-        }
-
-        // Show modal
-        function showModal(modalName) {
-            document.getElementById(modalName + 'Modal').classList.remove('hidden');
-            document.getElementById(modalName + 'Modal').classList.add('flex');
-        }
-
-        // Hide modal
-        function hideModal(modalName) {
-            document.getElementById(modalName + 'Modal').classList.add('hidden');
-            document.getElementById(modalName + 'Modal').classList.remove('flex');
-        }
-
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-            
-            toastMessage.textContent = message;
-            
-            switch(type) {
-                case 'success':
-                    toastIcon.className = 'fas fa-check-circle mr-3 text-green-400';
-                    break;
-                case 'error':
-                    toastIcon.className = 'fas fa-exclamation-circle mr-3 text-red-400';
-                    break;
-                case 'info':
-                    toastIcon.className = 'fas fa-info-circle mr-3 text-blue-400';
-                    break;
-                case 'warning':
-                    toastIcon.className = 'fas fa-exclamation-triangle mr-3 text-yellow-400';
-                    break;
-            }
-            
-            toast.classList.remove('translate-x-full');
             
             setTimeout(() => {
-                toast.classList.add('translate-x-full');
+                notification.style.display = 'none';
             }, 3000);
         }
-
-        // Make functions available globally
-        window.showPage = showPage;
-        window.toggleFavorite = toggleFavorite;
-        window.showBookDetail = showBookDetail;
-        window.downloadBook = downloadBook;
-        window.readBookOnline = readBookOnline;
-        window.hideModal = hideModal;
-        window.login = login;
-        window.showAddBookForm = showAddBookForm;
-        window.editBook = editBook;
-        window.confirmDeleteBook = confirmDeleteBook;
-        window.toggleFeatured = toggleFeatured;
-
-        // Initialize app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tampilkan kutipan dari tokoh terkenal
+            displayFamousQuotes();
+            
+            // Tampilkan kutipan yang sudah disimpan
+            loadMyQuotes();
+            
+            // Tambahkan event listener untuk form
+            document.getElementById('add-quote-form').addEventListener('submit', addQuote);
+            
+            // Tambahkan beberapa contoh kutipan jika localStorage kosong
+            if (!localStorage.getItem('myMotivationalQuotes')) {
+                const initialQuotes = [
+                    {
+                        text: "Jangan takut gagal, takutlah jika tidak pernah mencoba.",
+                        author: "Anda",
+                        date: new Date().toISOString()
+                    },
+                    {
+                        text: "Setiap hari adalah kesempatan baru untuk menjadi lebih baik.",
+                        author: "Anda",
+                        date: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('myMotivationalQuotes', JSON.stringify(initialQuotes));
+                loadMyQuotes();
+            }
+        });
     </script>
 </body>
 </html>
