@@ -233,7 +233,14 @@ const SyafiReader = () => {
 
   const handleAddBook = () => {
     const id = Math.max(...books.map(b => b.id), 0) + 1;
-    setBooks([...books, { ...newBook, id, rating: parseFloat(newBook.rating), year: parseInt(newBook.year), totalPages: parseInt(newBook.totalPages) }]);
+    setBooks([...books, { 
+      ...newBook, 
+      id, 
+      rating: parseFloat(newBook.rating), 
+      year: parseInt(newBook.year), 
+      totalPages: parseInt(newBook.totalPages),
+      content: newBook.content.filter(p => p.trim() !== '')
+    }]);
     setShowAddBook(false);
     setNewBook({
       title: '',
@@ -371,13 +378,22 @@ Downloaded from SYAFI - System for Your Advanced Free Information
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold">Admin Panel - Kelola Buku</h2>
-        <button
-          onClick={() => setShowAddBook(true)}
-          className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center gap-2"
-        >
-          <Plus size={20} />
-          Tambah Buku Baru
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 flex items-center gap-2"
+          >
+            <Home size={20} />
+            Kembali
+          </button>
+          <button
+            onClick={() => setShowAddBook(true)}
+            className="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 flex items-center gap-2"
+          >
+            <Plus size={20} />
+            Tambah Buku Baru
+          </button>
+        </div>
       </div>
 
       <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6`}>
@@ -581,4 +597,344 @@ Downloaded from SYAFI - System for Your Advanced Free Information
                 type="number"
                 value={editingBook.totalPages}
                 onChange={(e) => setEditingBook({...editingBook, totalPages: parseInt(e.target.value)})}
-                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-
+                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+              />
+              <textarea
+                placeholder="Deskripsi Buku"
+                value={editingBook.description}
+                onChange={(e) => setEditingBook({...editingBook, description: e.target.value})}
+                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-24`}
+              />
+              <textarea
+                placeholder="Konten Buku (pisahkan paragraf dengan enter)"
+                value={editingBook.content.join('\n')}
+                onChange={(e) => setEditingBook({...editingBook, content: e.target.value.split('\n')})}
+                className={`w-full px-4 py-2 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'} h-32`}
+              />
+            </div>
+
+            <button
+              onClick={handleUpdateBook}
+              className="w-full mt-6 bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
+            >
+              Update Buku
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  // Home Page
+  const renderHome = () => (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold mb-2">Selamat Datang di SYAFI Reader</h2>
+        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          Sistem untuk membaca dan mengelola buku digital secara gratis
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredBooks.map((book) => (
+          <div 
+            key={book.id} 
+            className={`rounded-xl overflow-hidden shadow-lg transform transition-transform hover:-translate-y-1 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+          >
+            <div className="relative">
+              <img 
+                src={book.cover} 
+                alt={book.title}
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded">
+                {book.rating} ★
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <h3 className="font-bold text-lg mb-1">{book.title}</h3>
+              <p className={`text-sm mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                {book.author} • {book.year}
+              </p>
+              <div className="flex items-center justify-between mb-3">
+                <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'}`}>
+                  {book.genre}
+                </span>
+                <span className="text-sm">{book.totalPages} halaman</span>
+              </div>
+              
+              <p className="text-sm mb-4 line-clamp-3">
+                {book.description}
+              </p>
+              
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedBook(book);
+                    setCurrentPage('reader');
+                    setReadingPage(1);
+                  }}
+                  className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 flex items-center justify-center gap-2"
+                >
+                  <BookOpen size={16} />
+                  Baca
+                </button>
+                <button
+                  onClick={() => downloadBook(book)}
+                  className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  title="Download"
+                >
+                  <Download size={18} />
+                </button>
+                <button
+                  onClick={() => shareBook(book)}
+                  className="p-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  title="Share"
+                >
+                  <Share2 size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  // Reader Page
+  const renderReader = () => {
+    if (!selectedBook) return null;
+    
+    return (
+      <div>
+        <div className="mb-6">
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="flex items-center gap-2 text-blue-500 hover:text-blue-600 mb-4"
+          >
+            <ChevronLeft size={20} />
+            Kembali ke Beranda
+          </button>
+          
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold">{selectedBook.title}</h2>
+              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                {selectedBook.author} • Halaman {readingPage} dari {selectedBook.content.length}
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setFontSize(fontSize - 1)}
+                  disabled={fontSize <= 12}
+                  className="p-2 rounded-lg border disabled:opacity-50"
+                >
+                  A-
+                </button>
+                <span className="w-12 text-center">{fontSize}px</span>
+                <button
+                  onClick={() => setFontSize(fontSize + 1)}
+                  disabled={fontSize >= 24}
+                  className="p-2 rounded-lg border disabled:opacity-50"
+                >
+                  A+
+                </button>
+              </div>
+              
+              <button
+                onClick={() => downloadBook(selectedBook)}
+                className="p-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
+                title="Download"
+              >
+                <Download size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className={`rounded-xl p-8 min-h-[60vh] ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+          <div 
+            className="leading-relaxed mx-auto max-w-3xl"
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            {selectedBook.content[readingPage - 1]}
+          </div>
+          
+          <div className="flex justify-between items-center mt-8 pt-6 border-t">
+            <button
+              onClick={() => setReadingPage(Math.max(1, readingPage - 1))}
+              disabled={readingPage === 1}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50"
+            >
+              <ChevronLeft size={20} />
+              Sebelumnya
+            </button>
+            
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min="1"
+                max={selectedBook.content.length}
+                value={readingPage}
+                onChange={(e) => setReadingPage(parseInt(e.target.value))}
+                className="w-48"
+              />
+              <span>Halaman {readingPage} dari {selectedBook.content.length}</span>
+            </div>
+            
+            <button
+              onClick={() => setReadingPage(Math.min(selectedBook.content.length, readingPage + 1))}
+              disabled={readingPage === selectedBook.content.length}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border disabled:opacity-50"
+            >
+              Berikutnya
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Library Page
+  const renderLibrary = () => (
+    <div>
+      <h2 className="text-3xl font-bold mb-6">Koleksi Buku Saya</h2>
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-6 shadow-lg`}>
+        <p className="text-center py-8">Fitur perpustakaan pribadi akan segera hadir!</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+      {/* Header */}
+      <header className={`sticky top-0 z-40 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Book className="text-blue-500" size={32} />
+              <div>
+                <h1 className="text-2xl font-bold">SYAFI Reader</h1>
+                <p className="text-xs opacity-70">System for Your Advanced Free Information</p>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="hidden md:block flex-1 max-w-2xl mx-8">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Cari buku, penulis, atau genre..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+                />
+                <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+                title={darkMode ? 'Mode Terang' : 'Mode Gelap'}
+              >
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              
+              {!isAdmin ? (
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700"
+                >
+                  Admin Login
+                </button>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 flex items-center gap-2"
+                >
+                  <LogOut size={18} />
+                  Logout
+                </button>
+              )}
+            </div>
+          </div>
+          
+          {/* Mobile Search */}
+          <div className="mt-4 md:hidden">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Cari buku, penulis, atau genre..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`w-full px-4 py-2 pl-10 rounded-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'border-gray-300'}`}
+              />
+              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <nav className={`sticky top-16 z-30 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+        <div className="container mx-auto px-4">
+          <div className="flex overflow-x-auto">
+            <button
+              onClick={() => setCurrentPage('home')}
+              className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'home' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
+            >
+              <Home size={18} />
+              Beranda
+            </button>
+            <button
+              onClick={() => setCurrentPage('library')}
+              className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'library' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
+            >
+              <Library size={18} />
+              Perpustakaan
+            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setCurrentPage('admin')}
+                className={`flex items-center gap-2 px-6 py-3 whitespace-nowrap ${currentPage === 'admin' ? 'border-b-2 border-blue-500 text-blue-500' : ''}`}
+              >
+                <Settings size={18} />
+                Admin Panel
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        {currentPage === 'home' && renderHome()}
+        {currentPage === 'reader' && renderReader()}
+        {currentPage === 'library' && renderLibrary()}
+        {currentPage === 'admin' && renderAdmin()}
+      </main>
+
+      {/* Footer */}
+      <footer className={`${darkMode ? 'bg-gray-800' : 'bg-gray-100'} mt-12 py-8`}>
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h3 className="text-xl font-bold mb-2">SYAFI Reader</h3>
+            <p className="opacity-70">© 2026 System for Your Advanced Free Information</p>
+            <p className="text-sm mt-4 opacity-60">Platform membaca buku digital gratis untuk semua orang</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Login Modal */}
+      {showLogin && renderLogin()}
+    </div>
+  );
+};
+
+export default SyafiReader;
